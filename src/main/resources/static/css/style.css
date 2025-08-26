@@ -1,0 +1,136 @@
+/* ========== 기본 리셋 ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: "Noto Sans KR", sans-serif;
+    background-color: #111;
+    color: #fff;
+    line-height: 1.5;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ========== 헤더 영역 ========== */
+.header {
+    width: 100%;
+    background-color: #1c1c1c;
+    border-bottom: 1px solid #333;
+}
+
+/* 상단 로그인/회원가입 */
+.header-top {
+    text-align: right;
+    font-size: 14px;
+    padding: 10px 20px;
+    background-color: #000;
+}
+.user-auth a {
+    color: #bbb;
+    margin-left: 12px;
+    transition: color 0.2s;
+    font-weight: 500; /* 약간 굵게 */
+}
+.user-auth a:hover {
+    color: #fff;
+}
+
+/* 메인 네비게이션 */
+.header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+}
+
+/* 왼쪽 네비게이션 */
+.left-nav, .right-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.left-nav button,
+.left-nav a,
+.right-nav a {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.left-nav button:hover,
+.left-nav a:hover,
+.right-nav a:hover {
+    color: #ffcc00;
+}
+
+/* 로고 */
+.logo img {
+    height: 50px;
+    transition: transform 0.2s;
+}
+.logo img:hover {
+    transform: scale(1.05);
+}
+
+/* 마이페이지 버튼 강조 */
+.mypage-btn {
+    font-weight: bold;
+    padding: 6px 12px;
+    border: 1px solid #ffcc00;
+    border-radius: 6px;
+    transition: background 0.3s, color 0.3s;
+}
+.mypage-btn:hover {
+    background: #ffcc00;
+    color: #000;
+}
+
+/* 검색창 */
+#search-container {
+    display: none;
+    background-color: #222;
+    padding: 15px;
+    text-align: center;
+    border-top: 1px solid #333;
+}
+#search-container input {
+    width: 60%;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+    margin-right: 10px;
+}
+#search-container button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: #ffcc00;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#search-container button:hover {
+    background-color: #e6b800;
+}
+
+/* 메인 콘텐츠 */
+main {
+    padding: 40px;
+}
+
+/* 푸터 */
+footer {
+    background-color: #000;
+    text-align: center;
+    padding: 20px;
+    color: #aaa;
+    font-size: 14px;
+}
