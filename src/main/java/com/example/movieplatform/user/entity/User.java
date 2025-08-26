@@ -1,7 +1,9 @@
 package com.example.movieplatform.user.entity;
 
+import com.example.movieplatform.auth.dto.OAuth2Response;
 import com.example.movieplatform.user.dto.RegisterDto;
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
+@Getter
 public class User {
 
     @Id
@@ -50,6 +53,12 @@ public class User {
                 registerDto.getBirthDate(), null, Status.ACTIVE, AuthType.LOCAL, Role.USER);
     }
 
+    // 구글 로그인 회원가입
+    public static User ofOAuth2(OAuth2Response oAuth2Response) {
+        return new User(oAuth2Response.getEmail(), null, oAuth2Response.getName(), null,
+                null, LocalDateTime.now(), Status.ACTIVE, AuthType.GOOGLE, Role.USER );
+    }
+
     public enum Status{
         ACTIVE,
         DELETED
@@ -57,7 +66,7 @@ public class User {
 
     public enum AuthType{
         LOCAL,
-        PAYCO
+        GOOGLE
     }
 
     public enum Role{

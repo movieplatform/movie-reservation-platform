@@ -1,5 +1,6 @@
 package com.example.movieplatform.entity;
 
+import com.example.movieplatform.user.entity.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

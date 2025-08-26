@@ -34,6 +34,8 @@
     <br><br>
 
     <button type="submit">회원가입</button>
+
+    <div th:if="${errorMsg}" style="color:red" th:text="${errorMsg}"></div>
 </form>
 </body>
 </html>
