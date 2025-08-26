@@ -1,5 +1,6 @@
 package com.example.movieplatform.user.controller;
 
+import com.example.movieplatform.common.exception.EmailAlreadyExistsException;
 import com.example.movieplatform.user.dto.RegisterDto;
 import com.example.movieplatform.user.service.RegisterService;
 import jakarta.validation.Valid;
@@ -27,12 +28,19 @@ public class RegisterController {
 
     // 회원가입 후 로그인 페이지로 리다이렉트
     @PostMapping
-    public String registerProcess(@Valid RegisterDto registerDto,  BindingResult bindingResult) {
+    public String registerProcess(@Valid RegisterDto registerDto,  BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             return "register";
         }
-        registerService.register(registerDto);
+
+        try{
+            registerService.register(registerDto);
+        }catch (EmailAlreadyExistsException e){
+            model.addAttribute("errorMsg", "이미 사용 중인 이메일입니다.");
+            return "register";
+        }
+
         return "redirect:/login";
     }
 }
