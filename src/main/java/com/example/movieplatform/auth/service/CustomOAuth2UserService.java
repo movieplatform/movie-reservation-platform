@@ -36,8 +36,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         User user = userRepository.findByEmail(oAuth2Response.getEmail());
         if (user == null) {
             user = User.ofOAuth2(oAuth2Response);
-            userRepository.save(user);
         }
+        user.updateLoginTime();
+        userRepository.save(user);
 
         return new CustomOAuth2User(oAuth2Response, user.getRole().toString());
     }

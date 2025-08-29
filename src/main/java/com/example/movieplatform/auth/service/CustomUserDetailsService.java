@@ -23,6 +23,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(email + " 존재하지 않는 사용자입니다. ");
         } // /login?error 로 이동
+        user.updateLoginTime();
+        userRepository.save(user);
         return new CustomUserDetails(user);
     }
 }

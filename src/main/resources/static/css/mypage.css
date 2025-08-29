@@ -1,0 +1,62 @@
+/* ===== 마이페이지 레이아웃 ===== */
+.side-layout {
+    display: flex;
+    min-height: 600px;
+    background-color: #111; /* 전체 배경도 어둡게 */
+    color: #fff;
+}
+
+/* 좌측 사이드바 */
+.sidebar {
+    width: 220px;
+    background: #1c1c1c;   /* 헤더와 톤 맞춤 */
+    padding: 25px 20px;
+    border-right: 1px solid #333;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin-bottom: 15px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #bbb; /* 기본 회색 글씨 */
+    transition: background 0.2s, color 0.2s;
+}
+
+.sidebar a:hover {
+    background: #ffcc00;
+    color: #000; /* hover 시 강조 */
+}
+
+/* 현재 페이지 표시용 (active 클래스 활용) */
+.sidebar a.active {
+    background: #ffcc00;
+    color: #000;
+    font-weight: bold;
+}
+
+/* 우측 컨텐츠 영역 */
+.page-content {
+    flex: 1;
+    padding: 30px;
+    background: #181818; /* 사이드와 대비되는 진한 회색 */
+    border-left: 1px solid #333;
+    min-height: 600px;
+}
+
+.page-content h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #ffcc00; /* 타이틀은 포인트 컬러 */
+}

@@ -1,41 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{headerlayout}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<h2>회원가입</h2>
-<form th:action="@{/register}" th:object="${registerDto}" method="post">
 
-    <label for="email">이메일</label>
-    <input type="email" id="email" th:field="*{email}" placeholder="이메일 입력" required>
-    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></div>
-    <br><br>
+<div layout:fragment="content">
+    <form th:action="@{/register}" th:object="${registerDto}" method="post">
+        <label for="email">이메일</label>
+        <input type="email" id="email" th:field="*{email}" placeholder="이메일 입력" required>
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></div>
+        <br><br>
 
-    <label for="password">비밀번호</label>
-    <input type="password" id="password" th:field="*{password}" placeholder="비밀번호 입력" required>
-    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red"></div>
-    <br><br>
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" th:field="*{password}" placeholder="비밀번호 입력" required>
+        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red"></div>
+        <br><br>
 
-    <label for="name">이름</label>
-    <input type="text" id="name" th:field="*{name}" placeholder="이름 입력" required>
-    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></div>
-    <br><br>
+        <label for="name">이름</label>
+        <input type="text" id="name" th:field="*{name}" placeholder="이름 입력" required>
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></div>
+        <br><br>
 
-    <label for="phoneNumber">전화번호</label>
-    <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" placeholder="010-1234-5678" required>
-    <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" style="color:red"></div>
-    <br><br>
+        <label for="phoneNumber">전화번호</label>
+        <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" placeholder="010-1234-5678" required>
+        <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" style="color:red"></div>
+        <br><br>
 
-    <label for="birthDate">생년월일</label>
-    <input type="date" id="birthDate" th:field="*{birthDate}" required>
-    <div th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" style="color:red"></div>
-    <br><br>
+        <label for="birthDate">생년월일</label>
+        <input type="date" id="birthDate" th:field="*{birthDate}" required>
+        <div th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" style="color:red"></div>
+        <br><br>
 
-    <button type="submit">회원가입</button>
+        <button type="submit">회원가입</button>
 
-    <div th:if="${errorMsg}" style="color:red" th:text="${errorMsg}"></div>
-</form>
+        <div th:if="${errorMsg}" style="color:red" th:text="${errorMsg}"></div>
+    </form>
+</div>
 </body>
 </html>
