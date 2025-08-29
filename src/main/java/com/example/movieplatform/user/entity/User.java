@@ -73,4 +73,9 @@ public class User {
         USER,
         ADMIN
     }
+
+    // 최근 로그인 시간 업데이트
+    public void updateLoginTime(){
+        this.currentLoginAt = LocalDateTime.now();
+    }
 }

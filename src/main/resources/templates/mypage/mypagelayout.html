@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{headerlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+    <link rel="stylesheet" th:href="@{/css/mypage.css}">
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="side-layout">
+        <!-- 좌측 사이드바 -->
+        <aside class="sidebar">
+            <ul>
+                <li><a th:href="@{/my-page/profile}">회원정보</a></li>
+                <li><a th:href="@{/my-page/reservations}">예약 내역</a></li>
+                <li><a th:href="@{/my-page/points}">포인트 내역</a></li>
+                <li><a th:href="@{/my-page/reviews}">리뷰 내역</a></li>
+                <li><a th:href="@{/my-page/inquiries}">문의 내역</a></li>
+            </ul>
+        </aside>
+
+        <!-- 오른쪽 컨텐츠 영역 -->
+        <section class="page-content">
+            <div layout:fragment="mypageContent">
+                <!-- 각 페이지에서 내용이 들어올 자리 -->
+            </div>
+        </section>
+    </div>
+</main>
+</body>
+</html>
