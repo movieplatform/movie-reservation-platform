@@ -69,9 +69,16 @@ public class User {
         GOOGLE
     }
 
+    @Getter
     public enum Role{
-        USER,
-        ADMIN
+        USER("일반 회원"),
+        ADMIN("관리자");
+
+        private final String displayName;
+
+        Role(String displayName) {
+            this.displayName = displayName;
+        }
     }
 
     // 최근 로그인 시간 업데이트
