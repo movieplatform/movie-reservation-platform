@@ -59,6 +59,7 @@ a {
     justify-content: space-between;
     align-items: center;
     padding: 15px 30px;
+    height: 80px; /* 원하는 고정 높이 */
 }
 
 /* 왼쪽 네비게이션 */
@@ -85,7 +86,7 @@ a {
 
 /* 로고 */
 .logo img {
-    height: 50px;
+    height: 120px;
     transition: transform 0.2s;
 }
 .logo img:hover {

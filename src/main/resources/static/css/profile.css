@@ -1,0 +1,28 @@
+.profile-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #1c1c1c; /* 다크톤 배경 */
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.5); /* 그림자도 진하게 */
+}
+
+.profile-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #333; /* 경계선도 어둡게 */
+}
+
+.profile-item:last-child {
+    border-bottom: none;
+}
+
+.label {
+    font-weight: bold;
+    color: #ffcc00; /* 포인트 컬러 강조 */
+}
+
+.value {
+    color: #fff; /* 기본 글씨는 흰색 */
+}

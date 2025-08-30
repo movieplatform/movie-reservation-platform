@@ -4,12 +4,31 @@
       layout:decorate="~{mypage/mypagelayout}">
 <head>
     <meta charset="UTF-8">
-    <title>로그인</title>
+    <title>회원정보</title>
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
 </head>
 <body>
 
 <div layout:fragment="mypageContent">
     <h2>회원정보</h2>
+    <div class="profile-container">
+        <div class="profile-item">
+            <span class="label">이름:</span>
+            <span class="value" th:text="${userProfile.name}">홍길동</span>
+        </div>
+        <div class="profile-item">
+            <span class="label">가입일:</span>
+            <span class="value" th:text="${userProfile.createdAt}">2025-08-30 14:00</span>
+        </div>
+        <div class="profile-item">
+            <span class="label">최근 로그인:</span>
+            <span class="value" th:text="${userProfile.currentLoginAt}">2025-08-30 14:30</span>
+        </div>
+        <div class="profile-item">
+            <span class="label">권한:</span>
+            <span class="value" th:text="${userProfile.role}">일반 회원</span>
+        </div>
+    </div>
 </div>
 
 </body>
