@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class CustomUserDetails implements UserDetails {
+public class CustomUserDetails implements UserDetails, UserPrincipal {
 
     private User user;
 
@@ -57,5 +57,10 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public User getUser() {
+        return user;
     }
 }

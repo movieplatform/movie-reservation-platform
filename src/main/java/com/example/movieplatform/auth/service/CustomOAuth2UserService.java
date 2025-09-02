@@ -40,6 +40,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         user.updateLoginTime();
         userRepository.save(user);
 
-        return new CustomOAuth2User(oAuth2Response, user.getRole().toString());
+        return new CustomOAuth2User(user);
     }
 }

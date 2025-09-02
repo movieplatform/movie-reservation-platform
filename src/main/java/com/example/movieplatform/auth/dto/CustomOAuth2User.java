@@ -1,39 +1,41 @@
 package com.example.movieplatform.auth.dto;
 
+import com.example.movieplatform.user.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.*;
 
-public class  CustomOAuth2User implements OAuth2User {
+public class  CustomOAuth2User implements OAuth2User, UserPrincipal {
 
-    private final OAuth2Response oAuth2Response;
-    private final String role;
+    private final User user;
 
-    public CustomOAuth2User(OAuth2Response oAuth2Response, String role) {
-        this.oAuth2Response = oAuth2Response;
-        this.role = role;
+    public CustomOAuth2User(User user) {
+        this.user = user;
     }
 
     @Override
     public Map<String, Object> getAttributes() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("email", oAuth2Response.getEmail());
-        map.put("name", oAuth2Response.getName());
-        map.put("provider", oAuth2Response.getProvider());
-        map.put("providerId", oAuth2Response.getProviderId());
-        return map;
+        return Map.of(
+                "email", user.getEmail(),
+                "name", user.getName()
+        );
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().toString()));
     }
 
     @Override
     public String getName() {
-        return oAuth2Response.getEmail();
+        return user.getEmail();
+    }
+
+    @Override
+    public User getUser() {
+        return user;
     }
 }

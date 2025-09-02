@@ -8,6 +8,35 @@
     <link rel="stylesheet" th:href="@{/css/point.css}">
 </head>
 <body>
+<div layout:fragment="mypageContent" class="point-history-container">
 
+    <h2>포인트 내역</h2>
+
+    <table class="point-table">
+        <thead>
+        <tr>
+            <th>날짜</th>
+            <th>구분</th>
+            <th>사유</th>
+            <th>포인트</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="point : ${pointHistory}">
+            <td th:text="${#temporals.format(point.transactionDate, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${point.transactionType.description}"></td>
+            <td th:text="${point.pointReason.description}"></td>
+            <td th:text="${point.transactionType == TransactionType.USE ? '-' : '+'} + ${point.pointAmount}"></td>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="point-summary">
+        총 포인트: <span th:text="${totalPoint}"></span> 점
+    </div>
+
+
+</div>
 </body>
 </html>

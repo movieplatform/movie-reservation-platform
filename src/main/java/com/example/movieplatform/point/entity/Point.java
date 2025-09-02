@@ -3,12 +3,12 @@ package com.example.movieplatform.point.entity;
 import com.example.movieplatform.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
-import org.codehaus.groovy.transform.GroovyASTTransformation;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "point_history")
+@Getter
 public class Point {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
