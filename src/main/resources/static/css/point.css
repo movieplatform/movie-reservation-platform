@@ -1,0 +1,75 @@
+/* ===== 포인트 내역 페이지 ===== */
+
+/* 컨테이너 */
+.point-history-container {
+    background: #181818; /* 마이페이지 content 배경과 일치 */
+    padding: 30px;
+    border-radius: 8px;
+}
+
+/* 제목 */
+.point-history-container h2 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ffcc00;
+    margin-bottom: 20px;
+}
+
+/* 포인트 내역 테이블 */
+.point-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background: #1e1e1e; /* 살짝 밝은 배경 */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+.point-table thead {
+    background: #2a2a2a;
+}
+
+.point-table th, .point-table td {
+    padding: 14px 16px;
+    text-align: center;
+    font-size: 15px;
+}
+
+.point-table th {
+    color: #ffcc00;
+    border-bottom: 1px solid #333;
+}
+
+.point-table td {
+    color: #ddd;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+/* 행 hover 효과 */
+.point-table tbody tr:hover {
+    background: #252525;
+}
+
+/* + 적립 / - 사용 색상 강조 */
+.point-table td:last-child {
+    font-weight: bold;
+}
+.point-table td:last-child:contains('+') {
+    color: #4caf50; /* 초록: 적립 */
+}
+.point-table td:last-child:contains('-') {
+    color: #f44336; /* 빨강: 사용 */
+}
+
+/* 총 포인트 요약 */
+.point-summary {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+    color: #fff;
+}
+.point-summary span {
+    color: #ffcc00;
+}
