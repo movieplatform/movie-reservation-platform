@@ -3,6 +3,7 @@ package com.example.movieplatform.auth.service;
 import com.example.movieplatform.auth.dto.CustomOAuth2User;
 import com.example.movieplatform.auth.dto.GoogleResponse;
 import com.example.movieplatform.auth.dto.OAuth2Response;
+import com.example.movieplatform.point.service.PointService;
 import com.example.movieplatform.user.Repository.UserRepository;
 import com.example.movieplatform.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
+    private final PointService pointService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -36,9 +38,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         User user = userRepository.findByEmail(oAuth2Response.getEmail());
         if (user == null) {
             user = User.ofOAuth2(oAuth2Response);
+            userRepository.save(user);
+            pointService.addRegisterPoint(user);
+
+        } else{
+            user.updateLoginTime();
+            userRepository.save(user);
         }
-        user.updateLoginTime();
-        userRepository.save(user);
 
         return new CustomOAuth2User(user);
     }

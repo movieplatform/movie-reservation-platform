@@ -12,4 +12,9 @@ public class GlobalExceptionHandler {
         model.addAttribute("errorMessage", e.getMessage());
         return "register";
     }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public void handleEntityNotFoundException(EntityNotFoundException e, Model model) {
+        model.addAttribute("errorMessage", e.getMessage());
+    }
 }

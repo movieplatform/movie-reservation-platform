@@ -1,15 +1,25 @@
 package com.example.movieplatform.movie.service;
 
-import com.example.movieplatform.movie.dto.MovieResponse;
+import com.example.movieplatform.common.exception.EntityNotFoundException;
+import com.example.movieplatform.movie.repository.MovieRepository;
+import com.example.movieplatform.movie.entity.Movie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class MovieService {
-    private final RestTemplate restTemplate;
-    private final String BASE_URL = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2";
-    private final String SERVICE_KEY = "발급받은 인증키";
 
+    private final MovieRepository movieRepository;
+
+    public List<Movie> getMovies() {
+        return movieRepository.findAll();
+    }
+
+    public Movie getMovie(String docId) {
+        return movieRepository.findByDocId(docId)
+                .orElseThrow(() -> new EntityNotFoundException(docId));
+    }
 }
