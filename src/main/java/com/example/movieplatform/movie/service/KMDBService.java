@@ -1,0 +1,140 @@
+package com.example.movieplatform.movie.service;
+
+import com.example.movieplatform.movie.repository.GenreRepository;
+import com.example.movieplatform.movie.repository.MovieGenreRepository;
+import com.example.movieplatform.movie.repository.MovieRepository;
+import com.example.movieplatform.movie.dto.DataWrapper;
+import com.example.movieplatform.movie.dto.KMDBResponse;
+import com.example.movieplatform.movie.dto.ResultWrapper;
+import com.example.movieplatform.movie.entity.Genre;
+import com.example.movieplatform.movie.entity.Movie;
+import com.example.movieplatform.movie.entity.MovieGenre;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.HttpURLConnection;
+
+import java.net.URL;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class KMDBService {
+    private final MovieRepository movieRepository;
+    private final GenreRepository genreRepository;
+    private final MovieGenreRepository movieGenreRepository;
+    private final RestTemplate restTemplate;
+    @Value("${kmdb.service-key}")
+    private String serviceKey;
+
+    public void loadMovies() {
+        try {
+            String json = fetchMoviesJson("공포");
+            KMDBResponse response = parseJson(json);
+
+            if (response != null && response.Data != null) {
+                for (DataWrapper dataWrapper : response.Data) {
+                    if (dataWrapper.Result != null) {
+                        for (ResultWrapper result : dataWrapper.Result) {
+                            Optional<Movie> existingMovie = movieRepository.findByDocId(result.DOCID);
+
+                            Movie movie;
+                            if (existingMovie.isPresent()) {
+                                movie = existingMovie.get();
+
+                            } else {
+                                String validPoster = getFirstValidPoster(result.posters);
+                                movie = Movie.ofMovie(result, validPoster);
+                                movieRepository.save(movie);
+                            }
+
+                            saveGenresForMovie(movie, result.genre);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String fetchMoviesJson(String genre) {  // 에외처리?
+        String url = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp" +
+                "?collection=kmdb_new2" +
+                "&releaseDts=20100101" +
+                "&releaseDte=20241231" +
+                "&genre=" + genre +
+                "&nation=대한민국" +
+                "&listCount=5" +
+                "&ServiceKey=" + serviceKey;
+
+        return restTemplate.getForObject(url, String.class);
+    }
+
+    // KMDB API가 JSON을 반환하지만 HTTP헤더에는 Content-type: text/html로 되어있음
+//    Set-Cookie: [JSESSIONID=653983DB11BFC75866D58FE281583036; Path=/openapi-data2; HttpOnly]
+//    Access-Control-Allow-Origin: [*]
+//    Content-Type: [text/html;charset=utf-8]
+//    Transfer-Encoding: [chunked]
+//    Date: [Wed, 03 Sep 2025 14:32:33 GMT]
+//    Keep-Alive: [timeout=20]
+//    Connection: [keep-alive]
+//    Server: [Apache]
+
+    private KMDBResponse parseJson(String json) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(json, KMDBResponse.class);
+    }
+
+    public void saveGenresForMovie(Movie movie, String genreString) {
+        if (genreString == null || genreString.isEmpty()) return;
+
+        String[] genreNames = genreString.split(",");
+        for (String genreName : genreNames) {
+            genreName = genreName.trim();
+            Genre genre = genreRepository.findByName(genreName);
+            if (genre == null) {
+                genre = genreRepository.save(Genre.valueOf(genreName));
+            }
+
+            Optional<MovieGenre> existingMovieGenre = movieGenreRepository.findByMovieAndGenre(movie, genre);
+
+            if (existingMovieGenre.isEmpty()) {
+                MovieGenre movieGenre = MovieGenre.valueOf(movie, genre);
+                movieGenreRepository.save(movieGenre);
+            }
+
+        }
+    }
+
+    private String getFirstValidPoster(String posters) {
+        if (posters == null || posters.isEmpty()) return null;
+
+        String[] urls = posters.split("\\|");
+        for (String url : urls) {
+            url = url.trim();
+            if (isValidUrl(url)) {
+                return url;  // 첫 번째 유효한 URL 반환
+            }
+        }
+        return null;
+    }
+
+    private boolean isValidUrl(String url) {
+        try {
+            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+            conn.setRequestMethod("HEAD");
+            conn.setConnectTimeout(2000); // 2초
+            conn.setReadTimeout(2000);
+            int responseCode = conn.getResponseCode();
+            return responseCode == 200;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+}

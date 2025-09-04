@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{headerlayout}">
+<head>
+    <title>영화페이지</title>
+    <link rel="stylesheet" th:href="@{/css/movies.css}">
+</head>
+<body>
+<main layout:fragment="content">
+    <h2 style="text-align: center;">영화 목록</h2>
+    <div class="movies-container">
+        <div class="movie-card" th:each="movie : ${movies}">
+            <a th:href="@{|/movies/${movie.docId}|}">
+                <img th:src="${movie.posterUrl}" alt="포스터">
+                <div class="movie-title" th:text="${movie.title}"></div>
+            </a>
+        </div>
+
+    </div>
+</main>
+</body>
+</html>

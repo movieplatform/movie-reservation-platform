@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{headerlayout}">
+<head>
+    <title>영화 상세 정보</title>
+    <link rel="stylesheet" th:href="@{/css/moviedetail.css}">
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="movie-detail-container">
+        <!-- 포스터 -->
+        <div class="poster-section">
+            <img th:src="${movie.posterUrl}" alt="포스터" class="movie-poster">
+        </div>
+
+        <!-- 상세 정보 -->
+        <div class="info-section">
+            <h2 th:text="${movie.title}"></h2>
+            <h4 th:text="${movie.titleEng}"></h4>
+
+            <ul class="movie-info">
+                <li><strong>상영 시간:</strong> <span th:text="${movie.runtime + '분'}"></span></li>
+                <li><strong>관람 등급:</strong> <span th:text="${movie.rating}"></span></li>
+                <li><strong>장르:</strong> <span th:text="${movie.genre}"></span></li>
+                <li><strong>개봉일:</strong> <span th:text="${movie.repRlsDate}"></span></li>
+            </ul>
+
+            <div class="back-link">
+                <a th:href="@{/movies}">← 목록으로 돌아가기</a>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

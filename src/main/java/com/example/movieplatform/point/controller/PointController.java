@@ -17,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/my-page")
 public class PointController {
+
     private final PointService pointService;
 
     @GetMapping("/points")
