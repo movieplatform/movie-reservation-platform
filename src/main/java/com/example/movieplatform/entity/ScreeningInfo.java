@@ -1,6 +1,7 @@
 package com.example.movieplatform.entity;
 
 import com.example.movieplatform.movie.entity.Movie;
+import com.example.movieplatform.screen.entity.Screen;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -18,8 +19,8 @@ public class ScreeningInfo {
     private Long price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "theater_id")
-    private Theater theater;
+    @JoinColumn(name = "screen_id")
+    private Screen screen;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_movieCd")
