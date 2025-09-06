@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
@@ -34,8 +35,19 @@ public class MyPageController {
 
         User user = userService.findUserByEmail(principal.getName());
         UserProfileDto userProfileDto = UserProfileDto.fromEntity(user);
+
         model.addAttribute("userProfile", userProfileDto);
 
         return "mypage/profile";
+    }
+
+    @PostMapping("/withdraw")
+    public String withdraw(Principal principal){
+
+        User user = userService.findUserByEmail(principal.getName());
+        userService.withdrawUser(user.getId());
+
+        SecurityContextHolder.clearContext();
+        return "redirect:/login?logout";
     }
 }

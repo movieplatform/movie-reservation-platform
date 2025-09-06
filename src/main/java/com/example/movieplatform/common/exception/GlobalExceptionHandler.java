@@ -13,8 +13,9 @@ public class GlobalExceptionHandler {
         return "register";
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public void handleEntityNotFoundException(EntityNotFoundException e, Model model) {
+    @ExceptionHandler({EntityNotFoundException.class, ScreenAlreadyExistsException.class, AlreadyWithdrawException.class, AdminCannotWithdrawException.class})
+    public String handleException(Exception e, Model model) {
         model.addAttribute("errorMessage", e.getMessage());
+        return "error";
     }
 }

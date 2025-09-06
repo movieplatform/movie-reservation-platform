@@ -85,4 +85,9 @@ public class User {
     public void updateLoginTime(){
         this.currentLoginAt = LocalDateTime.now();
     }
+
+    // 회원 탈퇴
+    public void withdraw(){
+        this.status = Status.DELETED;
+    }
 }
