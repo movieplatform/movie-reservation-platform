@@ -4,6 +4,7 @@ import com.example.movieplatform.auth.dto.CustomUserDetails;
 import com.example.movieplatform.user.Repository.UserRepository;
 import com.example.movieplatform.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +23,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         if (user == null) {
             throw new UsernameNotFoundException(email + " 존재하지 않는 사용자입니다. ");
+        } // /login?error 로 이동
+
+        if (user.getStatus() == User.Status.DELETED){
+            throw new DisabledException("탈퇴한 회원입니다.");
         } // /login?error 로 이동
         user.updateLoginTime();
         userRepository.save(user);

@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>회원정보</title>
-    <link rel="stylesheet" th:href="@{/css/profile.css}">
+    <link rel="stylesheet" th:href="@{/css/mypage/profile.css}">
 </head>
 <body>
 
@@ -28,6 +28,9 @@
             <span class="label">권한:</span>
             <span class="value" th:text="${userProfile.role}">일반 회원</span>
         </div>
+        <form th:action="@{/my-page/withdraw}" method="post">
+            <button type="submit" class="delete-btn">회원 탈퇴</button>
+        </form>
     </div>
 </div>
 

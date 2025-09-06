@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/adminlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 관리</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<div layout:fragment="adminContent" class="container">
+    <h2>회원 관리</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>이메일</th>
+            <th>이름</th>
+            <th>상태</th>
+            <th>권한</th>
+            <th>가입일</th>
+            <th>최근 로그인</th>
+            <th>액션</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user, iterStat : ${users}">
+            <td th:text="${iterStat.index + 1}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.status}"></td>
+            <td th:text="${user.role.displayName}"></td>
+            <td th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${#temporals.format(user.currentLoginAt, 'yyyy-MM-dd HH:mm')}"></td>
+            <td>
+                <form th:action="@{|/admin/users/${user.id}/status|}" method="post">
+                    <button type="submit">탈퇴처리</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

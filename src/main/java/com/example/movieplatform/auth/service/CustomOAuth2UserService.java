@@ -7,6 +7,7 @@ import com.example.movieplatform.point.service.PointService;
 import com.example.movieplatform.user.Repository.UserRepository;
 import com.example.movieplatform.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -36,6 +37,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
         User user = userRepository.findByEmail(oAuth2Response.getEmail());
+
+
         if (user == null) {
             user = User.ofOAuth2(oAuth2Response);
             userRepository.save(user);
@@ -45,6 +48,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user.updateLoginTime();
             userRepository.save(user);
         }
+
+        if (user.getStatus() == User.Status.DELETED){
+            throw new DisabledException("탈퇴한 회원입니다.");
+        } // /login?error 로 이동
 
         return new CustomOAuth2User(user);
     }
