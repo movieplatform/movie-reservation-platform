@@ -13,9 +13,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SeatService {
+    private final ScreenRepository screenRepository;
     private final SeatRepository seatRepository;
-
-
 
     // 관리자가 행과 열 지정해서 좌석 생성가능(행 1~8 열 1~10 까지 가능)
     public void createSeatsForScreen(Screen screen, int rows, int cols) {
@@ -27,13 +26,19 @@ public class SeatService {
 
         for(int i = 0; i < rows; i++) {
             char rowChar = (char) ('A' + i);
-            for(int j = 0; j < cols; j++) {
+            for(int j = 1; j <= cols; j++) {
                 String seatNumber = rowChar+ String.valueOf(j);
                 Seat seat = new Seat(seatNumber, screen);
                 seats.add(seat);
             }
         }
-
         seatRepository.saveAll(seats);
+
+        screen.updateSeatSize(rows, cols);
+        screenRepository.save(screen);
+    }
+
+    public Long countByScreen(Screen screen) {
+        return seatRepository.countByScreen(screen);
     }
 }

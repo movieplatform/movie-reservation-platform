@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SeatRepository extends JpaRepository<Seat, Long> {
     boolean existsByScreen(Screen screen);
+    long countByScreen(Screen screen);
 }

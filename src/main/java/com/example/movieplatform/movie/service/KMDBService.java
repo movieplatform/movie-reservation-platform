@@ -1,5 +1,6 @@
 package com.example.movieplatform.movie.service;
 
+import com.example.movieplatform.admin.dto.MovieLoadRequest;
 import com.example.movieplatform.movie.repository.GenreRepository;
 import com.example.movieplatform.movie.repository.MovieGenreRepository;
 import com.example.movieplatform.movie.repository.MovieRepository;
@@ -32,9 +33,9 @@ public class KMDBService {
     @Value("${kmdb.service-key}")
     private String serviceKey;
 
-    public void loadMovies() {
+    public void loadMovies(MovieLoadRequest request) {
         try {
-            String json = fetchMoviesJson("공포");
+            String json = fetchMoviesJson(request);
             KMDBResponse response = parseJson(json);
 
             if (response != null && response.Data != null) {
@@ -49,6 +50,9 @@ public class KMDBService {
 
                             } else {
                                 String validPoster = getFirstValidPoster(result.posters);
+                                if (validPoster == null) {
+                                    continue; // 포스터 없으면 아예 저장하지 않음
+                                }
                                 movie = Movie.ofMovie(result, validPoster);
                                 movieRepository.save(movie);
                             }
@@ -59,18 +63,18 @@ public class KMDBService {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("영화 데이터를 가져오는 중 오류 발생: " + e.getMessage(), e);
         }
     }
 
-    private String fetchMoviesJson(String genre) {  // 에외처리?
+    private String fetchMoviesJson(MovieLoadRequest request) {  // 에외처리?
         String url = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp" +
                 "?collection=kmdb_new2" +
-                "&releaseDts=20100101" +
-                "&releaseDte=20241231" +
-                "&genre=" + genre +
-                "&nation=대한민국" +
-                "&listCount=5" +
+                "&releaseDts=" + request.getReleaseStart() +
+                "&releaseDte" + request.getReleaseEnd() +
+                "&genre=" + request.getGenre() +
+                "&nation=" + request.getNation() +
+                "&listCount=" + request.getListCount() +
                 "&ServiceKey=" + serviceKey;
 
         return restTemplate.getForObject(url, String.class);
