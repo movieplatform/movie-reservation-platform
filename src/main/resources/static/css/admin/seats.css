@@ -1,0 +1,26 @@
+.seat-map {
+    display: inline-block;
+    padding: 10px;
+    background: #222;
+    border-radius: 8px;
+}
+.seat-row {
+    display: flex;
+    justify-content: center;
+    margin: 5px 0;
+}
+.seat {
+    width: 35px;
+    height: 35px;
+    margin: 3px;
+    background: #4CAF50;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 12px;
+}
+.seat.taken {
+    background: #f44336; /* 예약된 좌석은 빨강 */
+}

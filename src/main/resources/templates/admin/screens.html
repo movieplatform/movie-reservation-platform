@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/adminlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 페이지 - 극장 관리 및 좌석관리</title>
+</head>
+<body>
+<div layout:fragment="adminContent">
+
+    <h2>극장 관리</h2>
+
+    <!-- 추가 폼 -->
+    <form th:action="@{/admin/screens}" method="post">
+        <input type="text" name="screenName" placeholder="극장 이름" required/>
+        <button type="submit">극장 추가</button>
+    </form>
+
+    <br/>
+
+    <!-- 기존 극장 목록 -->
+    <table border="1">
+        <thead>
+        <tr>
+            <th>극장 이름</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="screen : ${screens}">
+            <td th:text="${screen.screenName}"></td>
+            <td>
+                <a th:href="@{/admin/screens/{id}(id=${screen.id})}">
+                    <button type="button">좌석 관리/추가</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

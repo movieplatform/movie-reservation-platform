@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/adminlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자페이지 좌석관리</title>
+    <link rel="stylesheet" th:href="@{/css/admin/seats.css}">
+</head>
+<body>
+
+<div layout:fragment="adminContent">
+    <form th:action="@{/admin/screens/{id}(id=${screen.id})}" method="post">
+        <div>
+            <label for="rows">행 (1~8):</label>
+            <input type="number" id="rows" name="rows" min="1" max="8" required>
+        </div>
+        <div>
+            <label for="cols">열 (1~10):</label>
+            <input type="number" id="cols" name="cols" min="1" max="10" required>
+        </div>
+        <div>
+            <button type="submit">좌석 생성</button>
+        </div>
+    </form>
+    <div>
+        <p>총 좌석 수: <span th:text="${seatCount}">0</span></p>
+    </div>
+
+
+</div>
+</body>
+</html>
