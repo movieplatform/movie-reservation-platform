@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{headerlayout}">
+<head>
+    <title>영화 예약</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <h2>상영 일정</h2>
+    <div>
+        <a th:each="day : ${dates}"
+           th:text="${day}"
+           th:classappend="${day.equals(screeningDate)} ? 'active' : ''"
+           th:href="@{/reservation(date=${day})}">
+        </a>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>영화</th>
+            <th>상영관</th>
+            <th>시작 시간</th>
+            <th>예매</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="info : ${infos}">
+            <td th:text="${info.movie.title}"></td>
+            <td th:text="${info.screen.screenName}"></td>
+            <td th:text="${info.startTime}"></td>
+            <td>
+                <a th:href="@{/booking/{id}(id=${info.id})}">예매하기</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

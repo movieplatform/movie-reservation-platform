@@ -15,11 +15,15 @@ public class MovieService {
     private final MovieRepository movieRepository;
 
     public List<Movie> getMovies() {
-        return movieRepository.findAll();
+        return movieRepository.findAllByOrderByRepRlsDateDesc();
     }
 
     public Movie getMovie(String docId) {
         return movieRepository.findByDocId(docId)
                 .orElseThrow(() -> new EntityNotFoundException(docId));
+    }
+
+    public List<Movie> getRecentTop10Movies() {
+        return movieRepository.findTop10ByOrderByRepRlsDateDesc();
     }
 }

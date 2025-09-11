@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/adminlayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자페이지 상영일정 관리</title>
+</head>
+<body>
+
+<div layout:fragment="adminContent">
+    <h2>상영일정 등록</h2>
+    <form th:action="@{/admin/screenings}" th:object="${screenInfoDto}" method="post">
+
+        <!-- 영화 선택 -->
+        <label>영화</label>
+        <select th:field="*{docId}">
+            <option th:each="movie : ${recentTop10Movies}"
+                    th:value="${movie.docId}"
+                    th:text="${movie.title}">
+            </option>
+        </select>
+
+        <!-- 상영관 선택 -->
+        <label>상영관</label>
+        <select th:field="*{screenId}">
+            <option th:each="screen : ${screens}"
+                    th:value="${screen.id}"
+                    th:text="${screen.screenName}">
+            </option>
+        </select>
+
+        <!-- 상영 기간 -->
+        <label>상영 시작일</label>
+        <input type="date" th:field="*{startDate}" th:min="${today}" required>
+
+        <label>상영 종료일</label>
+        <input type="date" th:field="*{endDate}" th:min="${today}" required>
+
+        <button type="submit">상영일정 등록</button>
+    </form>
+
+    <h2>등록된 상영일정</h2>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>영화</th>
+            <th>상영관</th>
+            <th>상영일</th>
+            <th>시작 시간</th>
+            <th>종료 시간</th>
+            <th>관리</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="info : ${screeningInfos}">
+            <td th:text="${info.movie.title}"></td>
+            <td th:text="${info.screen.screenName}"></td>
+            <td th:text="${info.screeningDate}"></td>
+            <td th:text="${info.startTime}"></td>
+            <td th:text="${info.endTime}"></td>
+            <td>
+                <form th:action="@{'/admin/screenings/' + ${info.id} + '/delete'}" method="post">
+                    <button type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+</div>
+
+</body>
+</html>
