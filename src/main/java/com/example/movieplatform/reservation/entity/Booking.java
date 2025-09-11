@@ -1,4 +1,4 @@
-package com.example.movieplatform.entity;
+package com.example.movieplatform.reservation.entity;
 
 import com.example.movieplatform.user.entity.User;
 import jakarta.persistence.*;

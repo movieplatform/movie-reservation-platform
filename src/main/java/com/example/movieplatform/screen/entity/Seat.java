@@ -1,9 +1,7 @@
 package com.example.movieplatform.screen.entity;
 
-import com.example.movieplatform.entity.ScreeningInfo;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Getter
