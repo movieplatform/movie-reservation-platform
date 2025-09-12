@@ -1,12 +1,10 @@
 package com.example.movieplatform.common.config;
 
 import com.example.movieplatform.auth.service.CustomOAuth2UserService;
-import com.example.movieplatform.auth.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -41,10 +39,13 @@ public class SecurityConfig {
                  .csrf(AbstractHttpConfigurer::disable)
                  .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                  .authorizeHttpRequests((auth) -> auth
-                         .requestMatchers( "/","/login", "/register").permitAll()
-                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                         .requestMatchers("/my-page", "/my-page/**").hasAnyRole("ADMIN","USER")
+                         // 공개 API
+                         .requestMatchers("/api/register", "/api/login", "/api/session", "/api/logout").permitAll()
+                         // 관리자 API
+                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                         // 로그인한 사용자만 접근 가능
+                         .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
+                         // 기타 API는 인증 필요
                          .anyRequest().authenticated()
                  )
 

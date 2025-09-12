@@ -19,7 +19,7 @@ public class RegisterService {
 
     public void register(RegisterDto registerDto) {
         if(userRepository.existsByEmail(registerDto.getEmail())) {
-            throw new EmailAlreadyExistsException(registerDto.getEmail());
+            throw new EmailAlreadyExistsException();
         }
 
         // 비밀번호 암호화
