@@ -5,42 +5,28 @@ import com.example.movieplatform.user.dto.RegisterDto;
 import com.example.movieplatform.user.service.RegisterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
-@RequestMapping("/register")
+@RequestMapping("/api/register")
 public class RegisterController {
 
     private final RegisterService registerService;
 
-    // 회원가입 페이지로 이동
-    @GetMapping
-    public String registerP(Model model) {
-        model.addAttribute("registerDto", new RegisterDto());
-        return "register";
-    }
-
-    // 회원가입 후 로그인 페이지로 리다이렉트
+    // 회원가입
     @PostMapping
-    public String registerProcess(@Valid RegisterDto registerDto,  BindingResult bindingResult, Model model) {
+    public ResponseEntity<String> registerProcess(@Valid @RequestBody RegisterDto registerDto) {
 
-        if (bindingResult.hasErrors()) {
-            return "register";
-        }
-
-        try{
+        // 이미 존재하는 이메일로 회원 가입할시 예외(GlobalExceptionHandler)
+        // valid 검증 실패시 에외
             registerService.register(registerDto);
-        }catch (EmailAlreadyExistsException e){
-            model.addAttribute("errorMsg", "이미 사용 중인 이메일입니다.");
-            return "register";
-        }
-
-        return "redirect:/login";
+            return ResponseEntity.ok("회원가입 성공");
     }
 }
