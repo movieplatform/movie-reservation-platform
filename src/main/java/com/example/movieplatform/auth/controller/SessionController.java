@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SessionController {
 
     @GetMapping
-    public ResponseEntity<Boolean> checkSession(HttpServletRequest request) {
+    public ResponseEntity<Boolean> checkSession() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         boolean loggedIn = auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken);
         return ResponseEntity.ok(loggedIn);

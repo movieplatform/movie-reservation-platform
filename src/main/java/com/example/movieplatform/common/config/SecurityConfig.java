@@ -43,8 +43,6 @@ public class SecurityConfig {
                          .requestMatchers("/api/register", "/api/login", "/api/session", "/api/logout").permitAll()
                          // 관리자 API
                          .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                         // 로그인한 사용자만 접근 가능
-                         .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
                          // 기타 API는 인증 필요
                          .anyRequest().authenticated()
                  )
@@ -52,11 +50,11 @@ public class SecurityConfig {
                  .formLogin(AbstractHttpConfigurer::disable)
                  .httpBasic(AbstractHttpConfigurer::disable)
 
-                 .oauth2Login((oauth2)-> oauth2
-                         .loginPage(("/login"))
-                         .userInfoEndpoint((userInfoEndpointConfig ->
-                                 userInfoEndpointConfig.userService(customOAuth2UserService)))
-                                 .defaultSuccessUrl("/", true)
+                 .oauth2Login(oauth2 -> oauth2
+                         .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
+                         .successHandler((request, response, authentication) -> {
+                             response.sendRedirect("http://localhost:3000/");
+                         })
                  );
 
 
