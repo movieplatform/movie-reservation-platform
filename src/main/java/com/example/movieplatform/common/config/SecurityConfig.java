@@ -40,7 +40,7 @@ public class SecurityConfig {
                  .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                  .authorizeHttpRequests((auth) -> auth
                          // 공개 API
-                         .requestMatchers("/api/register", "/api/login", "/api/session", "/api/logout").permitAll()
+                         .requestMatchers("/api/register", "/api/login", "/api/session", "/api/logout", "/api/movies/**").permitAll()
                          // 관리자 API
                          .requestMatchers("/api/admin/**").hasRole("ADMIN")
                          // 기타 API는 인증 필요
