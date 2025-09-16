@@ -1,36 +1,39 @@
 package com.example.movieplatform.admin.controller;
 
+import com.example.movieplatform.common.exception.ScreenAlreadyExistsException;
 import com.example.movieplatform.screen.entity.Screen;
 import com.example.movieplatform.screen.service.ScreenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin/screens")
+@RequestMapping("/api/admin/screens")
 public class AdminScreenController {
 
     private final ScreenService screenService;
 
     @GetMapping
-    public String adminScreens(Model model) {
+    public ResponseEntity<List<Screen>> adminScreens() {
 
         List<Screen> screens = screenService.getAllScreens();
-        model.addAttribute("screens", screens);
-        return "admin/screens";
+        return ResponseEntity.ok(screens);
     }
 
     @PostMapping
-    public String addScreen(@RequestParam String screenName) {
-        screenService.createScreen(screenName);
-        return "redirect:/admin/screens";
+    public ResponseEntity<String> addScreen(@RequestParam String screenName) {
+        try {
+            screenService.createScreen(screenName);
+            return ResponseEntity.ok("극장 추가 완료!!");
+        } catch (ScreenAlreadyExistsException e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(screenName + " 은 이미 존재하는 극장 이름입니다.");
+        }
     }
-
 }

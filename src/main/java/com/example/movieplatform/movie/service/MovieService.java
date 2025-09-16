@@ -35,4 +35,9 @@ public class MovieService {
     public List<Movie> getRecentTop10Movies() {
         return movieRepository.findTop10ByOrderByRepRlsDateDesc();
     }
+
+//    public void deleteMovieById(String id) {
+//        Movie movie = getMovie(id);
+//        movieRepository.delete(movie);
+//    }
 }
