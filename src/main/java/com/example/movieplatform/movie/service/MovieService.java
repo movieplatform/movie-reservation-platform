@@ -5,7 +5,9 @@ import com.example.movieplatform.movie.repository.MovieRepository;
 import com.example.movieplatform.movie.entity.Movie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +24,12 @@ public class MovieService {
 
     public Page<Movie> getMoviesByGenre(String genreName, Pageable pageable){
         if (genreName.equals("ALL")) {
-            return movieRepository.findAll(pageable);
+            Pageable sortedPageable = PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    Sort.by("title").ascending()   // 제목 기준 오름차순 정렬
+            );
+            return movieRepository.findAll(sortedPageable);
         }
         return movieRepository.findByGenreName(genreName, pageable);
     }
