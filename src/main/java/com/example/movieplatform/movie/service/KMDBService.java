@@ -37,6 +37,7 @@ public class KMDBService {
         try {
             String json = fetchMoviesJson(request);
             KMDBResponse response = parseJson(json);
+            boolean hasSavedMovie = false;
 
             if (response != null && response.Data != null) {
                 for (DataWrapper dataWrapper : response.Data) {
@@ -55,6 +56,7 @@ public class KMDBService {
                                 }
                                 movie = Movie.ofMovie(result, validPoster);
                                 movieRepository.save(movie);
+                                hasSavedMovie = true;
                             }
 
                             saveGenresForMovie(movie, result.genre);
@@ -62,6 +64,10 @@ public class KMDBService {
                     }
                 }
             }
+            if (!hasSavedMovie) {
+                throw new RuntimeException("검색 조건에 맞는 영화가 없습니다.");
+            }
+
         } catch (Exception e) {
             throw new RuntimeException("영화 데이터를 가져오는 중 오류 발생: " + e.getMessage(), e);
         }
