@@ -3,6 +3,7 @@ package com.example.movieplatform.review.service;
 import com.example.movieplatform.movie.entity.Movie;
 import com.example.movieplatform.movie.repository.MovieRepository;
 import com.example.movieplatform.review.dto.ReviewRequest;
+import com.example.movieplatform.review.dto.ReviewResponse;
 import com.example.movieplatform.review.entity.Review;
 import com.example.movieplatform.review.repository.ReviewRepository;
 import com.example.movieplatform.user.entity.User;
@@ -35,13 +36,27 @@ public class ReviewService {
     }
 
     // 리뷰 최신순
-    public List<Review> getReviewsSortedByLatest (Movie movie) {
-        return reviewRepository.findByMovieOrderByPostedAtDesc(movie);
+    public List<ReviewResponse> getReviewsSortedByLatest (Movie movie) {
+        List<Review> reviews = reviewRepository.findByMovieOrderByPostedAtDesc(movie);
+        return reviews.stream()
+                .map(r -> new ReviewResponse(
+                        r.getRating(),
+                        r.getContent(),
+                        r.getPostedAt(),
+                        r.getUser().getName()
+                )).toList();
     }
 
     // 리뷰 평점순
-    public List<Review> getReviewsSortedByRating(Movie movie){
-        return reviewRepository.findByMovieOrderByRatingDesc(movie);
+    public List<ReviewResponse> getReviewsSortedByRating(Movie movie){
+        List<Review> reviews = reviewRepository.findByMovieOrderByRatingDesc(movie);
+        return reviews.stream()
+                .map(r -> new ReviewResponse(
+                        r.getRating(),
+                        r.getContent(),
+                        r.getPostedAt(),
+                        r.getUser().getName()
+                )).toList();
     }
 
     // 내 리뷰 조회

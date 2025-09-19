@@ -4,6 +4,7 @@ import com.example.movieplatform.auth.dto.UserPrincipal;
 import com.example.movieplatform.movie.entity.Movie;
 import com.example.movieplatform.movie.service.MovieService;
 import com.example.movieplatform.review.dto.ReviewRequest;
+import com.example.movieplatform.review.dto.ReviewResponse;
 import com.example.movieplatform.review.entity.Review;
 import com.example.movieplatform.review.service.ReviewService;
 import com.example.movieplatform.user.entity.User;
@@ -37,17 +38,17 @@ public class ReviewController {
 
     // 리뷰 최신순
     @GetMapping("/{docId}/latest")
-    public ResponseEntity<List<Review>> getLatestReviews(@PathVariable String docId) {
+    public ResponseEntity<List<ReviewResponse>> getLatestReviews(@PathVariable String docId) {
         Movie movie = movieService.getMovie(docId);
-        List<Review> latestReview = reviewService.getReviewsSortedByLatest(movie);
+        List<ReviewResponse> latestReview = reviewService.getReviewsSortedByLatest(movie);
         return ResponseEntity.ok(latestReview);
     }
 
     // 리뷰 평점순
     @GetMapping("/{docId}/rating")
-    public ResponseEntity<List<Review>> getRatingReviews(@PathVariable String docId) {
+    public ResponseEntity<List<ReviewResponse>> getRatingReviews(@PathVariable String docId) {
         Movie movie = movieService.getMovie(docId);
-        List<Review> ratingReview = reviewService.getReviewsSortedByRating(movie);
+        List<ReviewResponse> ratingReview = reviewService.getReviewsSortedByRating(movie);
         return ResponseEntity.ok(ratingReview);
     }
 }
