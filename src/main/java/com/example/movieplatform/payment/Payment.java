@@ -1,4 +1,4 @@
-package com.example.movieplatform.entity;
+package com.example.movieplatform.payment;
 
 import com.example.movieplatform.reservation.entity.Booking;
 import jakarta.persistence.*;
