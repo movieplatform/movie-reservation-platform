@@ -62,7 +62,7 @@ public class SecurityConfig {
                              response.sendRedirect("http://localhost:3000/");
                          })
                  )
-                 // 여기 추가 👇
+
                  .exceptionHandling(ex -> ex
                          .authenticationEntryPoint((request, response, authException) -> {
                              response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 로그인 안 된 경우 401 반환
