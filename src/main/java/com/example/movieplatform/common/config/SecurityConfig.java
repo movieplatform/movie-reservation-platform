@@ -4,6 +4,7 @@ import com.example.movieplatform.auth.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,7 +41,8 @@ public class SecurityConfig {
                  .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                  .authorizeHttpRequests((auth) -> auth
                          // 공개 API
-                         .requestMatchers("/api/register", "/api/login", "/api/session", "/api/logout", "/api/movies/**").permitAll()
+                         .requestMatchers("/api/register", "/api/login", "/api/session", "/api/logout", "/api/movies/**" ).permitAll()
+                         .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll()
                          // 관리자 API
                          .requestMatchers("/api/admin/**").hasRole("ADMIN")
                          // 기타 API는 인증 필요

@@ -1,6 +1,7 @@
 package com.example.movieplatform.user.controller;
 
 import com.example.movieplatform.auth.dto.UserPrincipal;
+import com.example.movieplatform.review.dto.ReviewResponse;
 import com.example.movieplatform.review.entity.Review;
 import com.example.movieplatform.review.service.ReviewService;
 import com.example.movieplatform.user.dto.UserProfileDto;
@@ -63,9 +64,9 @@ public class MyPageController {
 
     // 디티오 만들어서 반환
     @GetMapping("/reviews")
-    public ResponseEntity<List<Review>> reviews(@AuthenticationPrincipal UserPrincipal userPrincipal){
+    public ResponseEntity<List<ReviewResponse>> reviews(@AuthenticationPrincipal UserPrincipal userPrincipal){
         User user = userPrincipal.getUser();
-        List<Review> myReviews = reviewService.getMyReviews(user);
+        List<ReviewResponse> myReviews = reviewService.getMyReviews(user);
         return ResponseEntity.ok(myReviews);
     }
 }
