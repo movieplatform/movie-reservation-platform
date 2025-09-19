@@ -20,14 +20,16 @@ public class Movie {
     private String repRlsDate;  // 개봉일
     @Column(length = 1000)
     private String posterUrl;
+    @Column(length = 2000)
+    private String plot;
 
     private double averageRating;
     public Movie(){};
 
 
-    public static Movie ofMovie(ResultWrapper result, String validPoster){
+    public static Movie ofMovie(ResultWrapper result, String validPoster, String plot){
         return new Movie(result.DOCID, result.title, result.titleEng, result.runtime, result.rating,
-                result.genre, result.repRlsDate, validPoster, 0);
+                result.genre, result.repRlsDate, validPoster, plot, 0);
     }
 
     public void updateAverageRating(double avg){
