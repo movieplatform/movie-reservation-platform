@@ -60,8 +60,15 @@ public class ReviewService {
     }
 
     // 내 리뷰 조회
-    public List<Review> getMyReviews(User user) {
-        return reviewRepository.findByUserOrderByPostedAtDesc(user);
+    public List<ReviewResponse> getMyReviews(User user) {
+        List<Review> reviews = reviewRepository.findByUserOrderByPostedAtDesc(user);
+        return reviews.stream()
+                .map(r -> new ReviewResponse(
+                        r.getRating(),
+                        r.getContent(),
+                        r.getPostedAt(),
+                        r.getUser().getName()
+                )).toList();
     }
 
 }
