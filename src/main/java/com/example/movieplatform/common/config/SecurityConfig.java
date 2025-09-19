@@ -1,6 +1,7 @@
 package com.example.movieplatform.common.config;
 
 import com.example.movieplatform.auth.service.CustomOAuth2UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,7 +48,9 @@ public class SecurityConfig {
                          .requestMatchers("/api/admin/**").hasRole("ADMIN")
                          // 기타 API는 인증 필요
                          .anyRequest().authenticated()
+
                  )
+
 
                  .formLogin(AbstractHttpConfigurer::disable)
                  .httpBasic(AbstractHttpConfigurer::disable)
@@ -55,7 +58,14 @@ public class SecurityConfig {
                  .oauth2Login(oauth2 -> oauth2
                          .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                          .successHandler((request, response, authentication) -> {
+                             // 로그인 성공 후 프론트로 이동
                              response.sendRedirect("http://localhost:3000/");
+                         })
+                 )
+                 // 여기 추가 👇
+                 .exceptionHandling(ex -> ex
+                         .authenticationEntryPoint((request, response, authException) -> {
+                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 로그인 안 된 경우 401 반환
                          })
                  );
 
