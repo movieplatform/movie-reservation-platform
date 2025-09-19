@@ -12,4 +12,6 @@ public class ResultWrapper {
     public String genre;
     public String repRlsDate;  // 개봉일
     public String posters;
+
+    public Plots plots;
 }

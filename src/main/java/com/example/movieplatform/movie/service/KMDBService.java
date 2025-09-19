@@ -54,7 +54,9 @@ public class KMDBService {
                                 if (validPoster == null) {
                                     continue; // 포스터 없으면 아예 저장하지 않음
                                 }
-                                movie = Movie.ofMovie(result, validPoster);
+
+                                String koreanPlot = extractKoreanPlot(result);
+                                movie = Movie.ofMovie(result, validPoster, koreanPlot);
                                 movieRepository.save(movie);
                                 hasSavedMovie = true;
                             }
@@ -147,4 +149,16 @@ public class KMDBService {
             return false;
         }
     }
+
+    private String extractKoreanPlot(ResultWrapper result) {
+        if (result.plots != null && result.plots.plot != null) {
+            return result.plots.plot.stream()
+                    .filter(p -> "한국어".equals(p.plotLang))
+                    .map(p -> p.plotText)
+                    .findFirst()
+                    .orElse(null);
+        }
+        return null;
+    }
+
 }
