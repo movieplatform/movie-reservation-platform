@@ -29,9 +29,13 @@ public class MovieController {
     }
 
     @GetMapping("/{docId}")
-    public String movieDetail(@PathVariable String docId, Model model) {
+    public ResponseEntity<Movie> getMovieDetail(@PathVariable String docId) {
         Movie movie = movieService.getMovie(docId);
-        model.addAttribute("movie", movie);
-        return "moviedetail";
+
+        if (movie != null) {
+            return ResponseEntity.ok(movie);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
