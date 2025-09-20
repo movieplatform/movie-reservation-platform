@@ -1,7 +1,7 @@
 package com.example.movieplatform.reservation.repository;
 
 import com.example.movieplatform.reservation.entity.ScreeningInfo;
-import com.example.movieplatform.screen.entity.Screen;
+import com.example.movieplatform.theater.entity.Screen;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;

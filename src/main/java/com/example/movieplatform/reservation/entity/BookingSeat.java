@@ -1,6 +1,6 @@
 package com.example.movieplatform.reservation.entity;
 
-import com.example.movieplatform.screen.entity.Seat;
+import com.example.movieplatform.theater.entity.Seat;
 import jakarta.persistence.*;
 
 @Entity

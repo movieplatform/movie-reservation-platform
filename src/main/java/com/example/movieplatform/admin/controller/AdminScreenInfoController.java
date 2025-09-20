@@ -5,8 +5,8 @@ import com.example.movieplatform.movie.entity.Movie;
 import com.example.movieplatform.movie.service.MovieService;
 import com.example.movieplatform.reservation.entity.ScreeningInfo;
 import com.example.movieplatform.reservation.service.ScreeningInfoService;
-import com.example.movieplatform.screen.entity.Screen;
-import com.example.movieplatform.screen.service.ScreenService;
+import com.example.movieplatform.theater.entity.Screen;
+import com.example.movieplatform.theater.service.ScreenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,18 +24,18 @@ public class AdminScreenInfoController {
     private final ScreenService screenService;
     private final ScreeningInfoService screeningInfoService;
 
-    @GetMapping
-    public String Screenings(Model model) {
-        List<Movie> recentTop10Movies = movieService.getRecentTop10Movies();
-        List<Screen> screens = screenService.getAllScreens();
-        List<ScreeningInfo> screeningInfos = screeningInfoService.getScreeningInfos();
-        model.addAttribute("recentTop10Movies", recentTop10Movies);
-        model.addAttribute("screens", screens);
-        model.addAttribute("screenInfoDto", new AdminScreenInfoDto());
-        model.addAttribute("today", LocalDate.now().toString());
-        model.addAttribute("screeningInfos", screeningInfos);
-        return "admin/screenings";
-    }
+//    @GetMapping
+//    public String Screenings(Model model) {
+//        List<Movie> recentTop10Movies = movieService.getRecentTop10Movies();
+//        List<Screen> screens = screenService.getAllScreens();
+//        List<ScreeningInfo> screeningInfos = screeningInfoService.getScreeningInfos();
+//        model.addAttribute("recentTop10Movies", recentTop10Movies);
+//        model.addAttribute("screens", screens);
+//        model.addAttribute("screenInfoDto", new AdminScreenInfoDto());
+//        model.addAttribute("today", LocalDate.now().toString());
+//        model.addAttribute("screeningInfos", screeningInfos);
+//        return "admin/screenings";
+//    }
 
     @PostMapping
     public String Screenings(@ModelAttribute AdminScreenInfoDto adminScreenInfoDto) {

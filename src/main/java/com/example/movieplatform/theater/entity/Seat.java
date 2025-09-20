@@ -1,4 +1,4 @@
-package com.example.movieplatform.screen.entity;
+package com.example.movieplatform.theater.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,7 +1,7 @@
-package com.example.movieplatform.screen.repository;
+package com.example.movieplatform.theater.repository;
 
-import com.example.movieplatform.screen.entity.Screen;
-import com.example.movieplatform.screen.entity.Seat;
+import com.example.movieplatform.theater.entity.Screen;
+import com.example.movieplatform.theater.entity.Seat;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SeatRepository extends JpaRepository<Seat, Long> {

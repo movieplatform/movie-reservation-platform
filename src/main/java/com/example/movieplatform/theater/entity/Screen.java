@@ -1,6 +1,5 @@
-package com.example.movieplatform.screen.entity;
+package com.example.movieplatform.theater.entity;
 
-import com.example.movieplatform.screen.repository.ScreenRepository;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -18,9 +17,14 @@ public class Screen {
     private int cols;
     // 1관 ~ 5관
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "theater_id")
+    private Theater theater;
+
     public Screen() {}
 
-    public Screen(String screenName) {
+    public Screen(Theater theater, String screenName) {
+        this.theater = theater;
         this.screenName = screenName;
     }
 

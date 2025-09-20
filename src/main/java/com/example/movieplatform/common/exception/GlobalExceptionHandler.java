@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
-    @ExceptionHandler({EntityNotFoundException.class, ScreenAlreadyExistsException.class, AlreadyWithdrawException.class, AdminCannotWithdrawException.class})
+    @ExceptionHandler({EntityNotFoundException.class, TheaterAlreadyExistsException.class, AlreadyWithdrawException.class, AdminCannotWithdrawException.class})
     public String handleException(Exception e, Model model) {
         model.addAttribute("errorMessage", e.getMessage());
         return "error";

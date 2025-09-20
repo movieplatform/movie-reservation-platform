@@ -1,13 +1,10 @@
 package com.example.movieplatform.admin.controller;
 
-import com.example.movieplatform.screen.entity.Screen;
-import com.example.movieplatform.screen.service.ScreenService;
-import com.example.movieplatform.screen.service.SeatService;
+import com.example.movieplatform.theater.entity.Screen;
+import com.example.movieplatform.theater.service.ScreenService;
+import com.example.movieplatform.theater.service.SeatService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
