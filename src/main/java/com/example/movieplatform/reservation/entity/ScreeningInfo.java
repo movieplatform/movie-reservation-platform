@@ -1,7 +1,7 @@
 package com.example.movieplatform.reservation.entity;
 
 import com.example.movieplatform.movie.entity.Movie;
-import com.example.movieplatform.screen.entity.Screen;
+import com.example.movieplatform.theater.entity.Screen;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -28,7 +28,7 @@ public class ScreeningInfo {
     private Screen screen;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_movieCd")
+    @JoinColumn(name = "movie_docId")
     private Movie movie;
 
     public ScreeningInfo(){}

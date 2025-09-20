@@ -6,8 +6,8 @@ import com.example.movieplatform.movie.service.MovieService;
 import com.example.movieplatform.reservation.dto.ShowTime;
 import com.example.movieplatform.reservation.entity.ScreeningInfo;
 import com.example.movieplatform.reservation.repository.ScreeningInfoRepository;
-import com.example.movieplatform.screen.entity.Screen;
-import com.example.movieplatform.screen.service.ScreenService;
+import com.example.movieplatform.theater.entity.Screen;
+import com.example.movieplatform.theater.service.ScreenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,9 @@
-package com.example.movieplatform.screen.service;
+package com.example.movieplatform.theater.service;
 
-import com.example.movieplatform.screen.entity.Screen;
-import com.example.movieplatform.screen.entity.Seat;
-import com.example.movieplatform.screen.repository.ScreenRepository;
-import com.example.movieplatform.screen.repository.SeatRepository;
+import com.example.movieplatform.theater.entity.Screen;
+import com.example.movieplatform.theater.entity.Seat;
+import com.example.movieplatform.theater.repository.ScreenRepository;
+import com.example.movieplatform.theater.repository.SeatRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
