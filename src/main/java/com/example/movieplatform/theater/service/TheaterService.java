@@ -1,5 +1,6 @@
 package com.example.movieplatform.theater.service;
 
+import com.example.movieplatform.common.exception.EntityNotFoundException;
 import com.example.movieplatform.common.exception.TheaterAlreadyExistsException;
 import com.example.movieplatform.theater.entity.Theater;
 import com.example.movieplatform.theater.repository.TheaterRepository;
@@ -26,5 +27,10 @@ public class TheaterService {
 
     public List<Theater> getAllTheaters(){
         return theaterRepository.findAll();
+    }
+
+    public Theater getTheaterById(Long theaterId){
+        return theaterRepository.findById(theaterId)
+                .orElseThrow(() -> new EntityNotFoundException(theaterId.toString()));
     }
 }

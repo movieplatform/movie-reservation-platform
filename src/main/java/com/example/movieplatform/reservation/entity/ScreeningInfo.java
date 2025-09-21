@@ -4,6 +4,7 @@ import com.example.movieplatform.movie.entity.Movie;
 import com.example.movieplatform.theater.entity.Screen;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -44,9 +45,15 @@ public class ScreeningInfo {
         this.movie = movie;
     }
 
+
+    // 스케쥴러 기반업데이트 하기!!!
     public enum ScreeningStatus{
         SCHEDULED,   // 상영 예정
         ONGOING,     // 현재 상영 중
         FINISHED     // 종료
+    }
+
+    public void updateScreeningStatus(ScreeningStatus screeningStatus) {
+        this.screeningStatus = screeningStatus;
     }
 }
