@@ -1,51 +1,32 @@
 package com.example.movieplatform.admin.controller;
 
-import com.example.movieplatform.admin.dto.AdminScreenInfoDto;
-import com.example.movieplatform.movie.entity.Movie;
-import com.example.movieplatform.movie.service.MovieService;
-import com.example.movieplatform.reservation.entity.ScreeningInfo;
+import com.example.movieplatform.admin.dto.ScreenInfoResponse;
 import com.example.movieplatform.reservation.service.ScreeningInfoService;
-import com.example.movieplatform.theater.entity.Screen;
-import com.example.movieplatform.theater.service.ScreenService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.List;
-
-@Controller
+@RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin/screenings")
+@RequestMapping("/api/admin/screenings")
 public class AdminScreenInfoController {
 
-    private final MovieService movieService;
-    private final ScreenService screenService;
     private final ScreeningInfoService screeningInfoService;
 
-//    @GetMapping
-//    public String Screenings(Model model) {
-//        List<Movie> recentTop10Movies = movieService.getRecentTop10Movies();
-//        List<Screen> screens = screenService.getAllScreens();
-//        List<ScreeningInfo> screeningInfos = screeningInfoService.getScreeningInfos();
-//        model.addAttribute("recentTop10Movies", recentTop10Movies);
-//        model.addAttribute("screens", screens);
-//        model.addAttribute("screenInfoDto", new AdminScreenInfoDto());
-//        model.addAttribute("today", LocalDate.now().toString());
-//        model.addAttribute("screeningInfos", screeningInfos);
-//        return "admin/screenings";
-//    }
-
     @PostMapping
-    public String Screenings(@ModelAttribute AdminScreenInfoDto adminScreenInfoDto) {
-        screeningInfoService.saveScreeningInfo(adminScreenInfoDto);
-        return "redirect:/admin/screenings";
+    public ResponseEntity<String> createScreenInfo(@RequestParam Long screenId) {
+        try{
+            screeningInfoService.saveScreeningInfo(screenId);
+            return ResponseEntity.ok("상영일정 저장 완료!!");
+        }catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
-    @PostMapping("{id}/delete")
-    public String deleteScreeningInfo(@PathVariable Long id) {
-        screeningInfoService.deleteScreeningInfo(id);
-        return "redirect:/admin/screenings";
+    @GetMapping("/{theaterId}")
+    public ResponseEntity<ScreenInfoResponse> getScreenInfo(@PathVariable Long theaterId) {
+        ScreenInfoResponse response = screeningInfoService.getScreenInfoByTheaterId(theaterId);
+        return ResponseEntity.ok(response);
     }
+
 }

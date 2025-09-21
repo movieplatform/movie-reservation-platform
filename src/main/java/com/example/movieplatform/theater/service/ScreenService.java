@@ -42,4 +42,14 @@ public class ScreenService {
         return screenRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id.toString()));
     }
+
+    public List<Long> getAllScreenIds(){
+        return screenRepository.findAllIds();
+    }
+
+    public List<Screen> getScreensByTheaterId(Long theaterId){
+        return screenRepository.findByTheaterId(theaterId);
+    }
+
+
 }

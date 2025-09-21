@@ -40,7 +40,11 @@ public class MovieService {
     }
 
     public List<Movie> getRecentTop10Movies() {
-        return movieRepository.findTop10ByOrderByRepRlsDateDesc();
+        List<Movie> movies = movieRepository.findTop10ByOrderByRepRlsDateDesc();
+        if (movies == null || movies.isEmpty()) {
+            throw new IllegalArgumentException("최근 개봉한 영화가 없습니다.");
+        }
+        return movies;
     }
 
 //    public void deleteMovieById(String id) {
