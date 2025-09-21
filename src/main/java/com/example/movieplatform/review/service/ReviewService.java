@@ -6,6 +6,7 @@ import com.example.movieplatform.review.dto.ReviewRequest;
 import com.example.movieplatform.review.dto.ReviewResponse;
 import com.example.movieplatform.review.entity.Review;
 import com.example.movieplatform.review.repository.ReviewRepository;
+import com.example.movieplatform.user.dto.UserReviewDto;
 import com.example.movieplatform.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -60,15 +61,8 @@ public class ReviewService {
     }
 
     // 내 리뷰 조회
-    public List<ReviewResponse> getMyReviews(User user) {
-        List<Review> reviews = reviewRepository.findByUserOrderByPostedAtDesc(user);
-        return reviews.stream()
-                .map(r -> new ReviewResponse(
-                        r.getRating(),
-                        r.getContent(),
-                        r.getPostedAt(),
-                        r.getUser().getName()
-                )).toList();
+    public List<UserReviewDto> getMyReviews(Long userId) {
+        return reviewRepository.findReviewsByUserId(userId);
     }
 
 }
