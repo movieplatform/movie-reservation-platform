@@ -1,11 +1,16 @@
 package com.example.movieplatform.theater.service;
 
+import com.example.movieplatform.reservation.dto.SeatDto;
+import com.example.movieplatform.reservation.entity.ScreeningInfo;
+import com.example.movieplatform.reservation.repository.BookingSeatRepository;
+import com.example.movieplatform.reservation.repository.ScreeningInfoRepository;
 import com.example.movieplatform.theater.entity.Screen;
 import com.example.movieplatform.theater.entity.Seat;
 import com.example.movieplatform.theater.repository.ScreenRepository;
 import com.example.movieplatform.theater.repository.SeatRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +19,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SeatService {
     private final ScreenRepository screenRepository;
+    private final ScreeningInfoRepository screeningInfoRepository;
     private final SeatRepository seatRepository;
+    private final BookingSeatRepository bookingSeatRepository;
 
     // 관리자가 행과 열 지정해서 좌석 생성가능(행 1~8 열 1~10 까지 가능)
+    @Transactional
     public void createSeatsForScreen(Screen screen, int rows, int cols) {
         if ( rows <1 || rows > 8) throw new IllegalArgumentException("행은 1~8까지 가능합니다.");
         if ( cols <1 || cols > 10) throw new IllegalArgumentException("열은 1~10까지 가능합니다. ");
@@ -38,7 +46,22 @@ public class SeatService {
         screenRepository.save(screen);
     }
 
+    @Transactional(readOnly = true)
     public Long countByScreen(Screen screen) {
         return seatRepository.countByScreen(screen);
+    }
+
+    @Transactional(readOnly = true)
+    public List<SeatDto> getSeatsByScreeningInfoId(Long screeningInfoId) {
+        ScreeningInfo screeningInfo = screeningInfoRepository.findById(screeningInfoId)
+                .orElseThrow(() -> new IllegalArgumentException("상영정보 없음"));
+
+        List<Seat> seats = seatRepository.findByScreen(screeningInfo.getScreen());
+
+        List<Long> occupiedSeatIds = bookingSeatRepository.findOccupiedSeatByScreeningInfoId(screeningInfoId);
+
+        return seats.stream()
+                .map(seat -> SeatDto.from(seat, occupiedSeatIds.contains(seat.getId())))
+                .toList();
     }
 }

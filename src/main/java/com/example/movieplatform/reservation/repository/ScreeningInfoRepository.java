@@ -19,10 +19,6 @@ public interface ScreeningInfoRepository extends JpaRepository<ScreeningInfo, Lo
 
     boolean existsByScreenAndScreeningDateAndStartTime(Screen screen, LocalDate date, LocalTime startTime);
 
-    @Query("SELECT si FROM ScreeningInfo si JOIN si.screen s JOIN s.theater t WHERE t.id = :theaterId")
-    List<ScreeningInfo> findByTheaterId(@Param("theaterId") Long theaterId);
-
-
     @Query("""
         SELECT new com.example.movieplatform.reservation.dto.ScreeningInfoDto(
             si.screeningDate,
@@ -39,5 +35,14 @@ public interface ScreeningInfoRepository extends JpaRepository<ScreeningInfo, Lo
         ORDER BY si.screeningDate, s.screenName, si.startTime
     """)
     List<ScreeningInfoDto> findScreeningDtoByTheaterId(@Param("theaterId")Long theaterId);
+
+    @Query("SELECT si FROM ScreeningInfo si " +
+            "JOIN si.screen s " +
+            "JOIN s.theater t " +
+            "JOIN si.movie m " +
+            "WHERE t.id = :theaterId AND m.docId = :docId AND si.screeningDate = :screeningDate")
+    List<ScreeningInfo> findByTheaterMovieAndDate(@Param("theaterId") Long theaterId,
+                                                  @Param("docId") String docId,
+                                                  @Param("screeningDate") LocalDate screeningDate);
 
 }

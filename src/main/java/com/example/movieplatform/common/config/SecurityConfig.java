@@ -43,7 +43,7 @@ public class SecurityConfig {
                  .authorizeHttpRequests((auth) -> auth
                          // 공개 API
                          .requestMatchers("/api/register", "/api/login", "/api/session", "/api/logout", "/api/movies/**" ).permitAll()
-                         .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll()
+                         .requestMatchers(HttpMethod.GET, "/api/reviews/**", "/api/reservation/**").permitAll()
                          // 관리자 API
                          .requestMatchers("/api/admin/**").hasRole("ADMIN")
                          // 기타 API는 인증 필요
