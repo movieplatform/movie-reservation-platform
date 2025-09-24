@@ -104,15 +104,6 @@ public class ScreeningInfoService {
         return result;
     }
 
-    // 해당날짜 상영일정 조회
-    public List<ScreeningInfo> getScreeningInfosByScreeningDate(LocalDate screeningDate) {
-        return screeningInfoRepository.findByScreeningDate(screeningDate);
-    }
-
-     // 극장별로 상영일자 조회
-    public List<ScreeningInfo> getScreeningInfosByTheaterId(Long theaterId) {
-        return screeningInfoRepository.findByTheaterId(theaterId);
-    }
 
     // 프론트에서 2주일치 상영일정 조회(극장별로)
     public ScreenInfoResponse getScreenInfoByTheaterId(Long theaterId) {
@@ -153,5 +144,9 @@ public class ScreeningInfoService {
 
         return new ScreenInfoResponse(theater.getTheaterName(), dateList);
 
+    }
+
+    public List<ScreeningInfo> reservationScreeningInfo(Long theaterId, String docId, LocalDate screeningDate) {
+        return screeningInfoRepository.findByTheaterMovieAndDate(theaterId, docId, screeningDate);
     }
 }
