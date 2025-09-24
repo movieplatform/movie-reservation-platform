@@ -40,7 +40,10 @@ public interface ScreeningInfoRepository extends JpaRepository<ScreeningInfo, Lo
             "JOIN si.screen s " +
             "JOIN s.theater t " +
             "JOIN si.movie m " +
-            "WHERE t.id = :theaterId AND m.docId = :docId AND si.screeningDate = :screeningDate")
+            "WHERE t.id = :theaterId " +
+            "AND m.docId = :docId " +
+            "AND si.screeningDate = :screeningDate " +
+            "AND si.screeningStatus = com.example.movieplatform.reservation.entity.ScreeningInfo.ScreeningStatus.SCHEDULED")
     List<ScreeningInfo> findByTheaterMovieAndDate(@Param("theaterId") Long theaterId,
                                                   @Param("docId") String docId,
                                                   @Param("screeningDate") LocalDate screeningDate);
