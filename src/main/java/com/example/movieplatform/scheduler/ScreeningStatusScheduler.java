@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -19,22 +20,25 @@ public class ScreeningStatusScheduler {
 
     @Scheduled(fixedRate = 60000)
     @Transactional
-    public void updateScreeningStatus(){
-        LocalDate today = LocalDate.now();
-        LocalTime nowTime = LocalTime.now();
+    public void updateScreeningStatus() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDate today = now.toLocalDate();
+        LocalTime currentTime = now.toLocalTime();
 
-        List<ScreeningInfo> todayScreenings = screeningInfoRepository.findByScreeningDate(today);
+        // 오늘 및 미래 상영 정보 조회
+        List<ScreeningInfo> activeScreenings = screeningInfoRepository.findActiveAndTodayScreenings(today, currentTime);
 
-        for(ScreeningInfo screening : todayScreenings){
-            LocalTime start = screening.getStartTime();
-            LocalTime end = screening.getEndTime();
+        for (ScreeningInfo screening : activeScreenings) {
+            LocalDateTime startDateTime = LocalDateTime.of(screening.getScreeningDate(), screening.getStartTime());
+            LocalDateTime endDateTime = LocalDateTime.of(screening.getScreeningDate(), screening.getEndTime());
 
             ScreeningInfo.ScreeningStatus oldStatus = screening.getScreeningStatus();
             ScreeningInfo.ScreeningStatus newStatus;
 
-            if (nowTime.isBefore(start)) {
+            // 오늘/미래 영화 상태 판단
+            if (now.isBefore(startDateTime)) {
                 newStatus = ScreeningInfo.ScreeningStatus.SCHEDULED;
-            } else if (!nowTime.isBefore(start) && nowTime.isBefore(end)) {
+            } else if (!now.isBefore(startDateTime) && now.isBefore(endDateTime)) {
                 newStatus = ScreeningInfo.ScreeningStatus.ONGOING;
             } else {
                 newStatus = ScreeningInfo.ScreeningStatus.FINISHED;
@@ -44,6 +48,15 @@ public class ScreeningStatusScheduler {
                 screening.updateScreeningStatus(newStatus);
             }
         }
+
+        // 오늘 이전에 SCHEDULED 상태로 남아 있는 과거 영화도 FINISHED로 수정
+        List<ScreeningInfo> pastWrongStatus = screeningInfoRepository
+                .findByScreeningStatusAndScreeningDateBefore(ScreeningInfo.ScreeningStatus.SCHEDULED, today);
+
+        for (ScreeningInfo screening : pastWrongStatus) {
+            screening.updateScreeningStatus(ScreeningInfo.ScreeningStatus.FINISHED);
+        }
+
         screeningInfoRepository.flush();
     }
 }

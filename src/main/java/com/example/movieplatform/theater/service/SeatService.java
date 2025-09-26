@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +38,7 @@ public class SeatService {
             char rowChar = (char) ('A' + i);
             for(int j = 1; j <= cols; j++) {
                 String seatNumber = rowChar+ String.valueOf(j);
-                Seat seat = new Seat(seatNumber, screen);
+                Seat seat = new Seat(seatNumber, i+1, j, screen);
                 seats.add(seat);
             }
         }
@@ -52,16 +54,13 @@ public class SeatService {
     }
 
     @Transactional(readOnly = true)
-    public List<SeatDto> getSeatsByScreeningInfoId(Long screeningInfoId) {
-        ScreeningInfo screeningInfo = screeningInfoRepository.findById(screeningInfoId)
-                .orElseThrow(() -> new IllegalArgumentException("상영정보 없음"));
+    public List<Seat> getSeatsByScreen(Screen screen) {
+        return seatRepository.findByScreen(screen);
+    }
 
-        List<Seat> seats = seatRepository.findByScreen(screeningInfo.getScreen());
-
-        List<Long> occupiedSeatIds = bookingSeatRepository.findOccupiedSeatByScreeningInfoId(screeningInfoId);
-
-        return seats.stream()
-                .map(seat -> SeatDto.from(seat, occupiedSeatIds.contains(seat.getId())))
-                .toList();
+    @Transactional(readOnly = true)
+    public Set<Long> getOccupiedSeatIds(Long screeningInfoId) {
+        List<Long> occupiedIds = bookingSeatRepository.findOccupiedSeatByScreeningInfoId(screeningInfoId);
+        return new HashSet<>(occupiedIds);
     }
 }

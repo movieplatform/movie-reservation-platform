@@ -12,5 +12,7 @@ public interface ScreenRepository extends JpaRepository<Screen, Long> {
     List<Screen> findByTheaterId(@Param("theaterId") Long theaterId);
     @Query("SELECT s.id FROM Screen s")
     List<Long> findAllIds();
+    @Query("SELECT si.screen FROM ScreeningInfo si WHERE si.id =:screeningInfoId")
+    Screen findScreenByScreeningInfoId(@Param("screeningInfoId") Long screeningInfoId);
 
 }

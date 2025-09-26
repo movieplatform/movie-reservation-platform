@@ -9,9 +9,12 @@ import lombok.Getter;
 public class SeatDto {
     private long id;
     private String seatNumber;
+    private int rowNumber;
+    private int colNumber;
+
     private boolean occupied;    // 좌석 점유 여부 (누군가 예약했는지)
 
     public static SeatDto from(Seat seat, Boolean occupied) {
-        return new SeatDto(seat.getId(), seat.getSeatNumber(), occupied);
+        return new SeatDto(seat.getId(), seat.getSeatNumber(), seat.getRowNumber(), seat.getColNumber(), occupied);
     }
 }

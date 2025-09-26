@@ -47,9 +47,7 @@ public class ScreenService {
         return screenRepository.findAllIds();
     }
 
-    public List<Screen> getScreensByTheaterId(Long theaterId){
-        return screenRepository.findByTheaterId(theaterId);
+    public Screen getScreenByScreeningInfoId(Long screeningInfoId){
+        return screenRepository.findScreenByScreeningInfoId(screeningInfoId);
     }
-
-
 }

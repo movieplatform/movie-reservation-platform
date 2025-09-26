@@ -12,7 +12,15 @@ import java.time.LocalTime;
 import java.util.List;
 
 public interface ScreeningInfoRepository extends JpaRepository<ScreeningInfo, Long> {
-    List<ScreeningInfo> findByScreeningDate(LocalDate screeningDate);
+    @Query("SELECT si FROM ScreeningInfo si " +
+            "WHERE si.screeningDate >= :today OR (si.screeningDate = :today AND si.endTime >= :nowTime)")
+    List<ScreeningInfo> findActiveAndTodayScreenings(@Param("today") LocalDate today, @Param("nowTime") LocalTime nowTime);
+
+    @Query("SELECT si FROM ScreeningInfo si " +
+            "WHERE si.screeningStatus = :status AND si.screeningDate < :today")
+    List<ScreeningInfo> findByScreeningStatusAndScreeningDateBefore(
+            @Param("status") ScreeningInfo.ScreeningStatus status,
+            @Param("today") LocalDate today);
 
     @Query("SELECT MAX(si.screeningDate) FROM ScreeningInfo si WHERE si.screen = :screen")
     LocalDate findMaxScreeningDateByScreen(@Param("screen") Screen screen);
