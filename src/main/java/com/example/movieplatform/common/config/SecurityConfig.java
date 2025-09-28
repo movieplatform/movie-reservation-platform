@@ -42,7 +42,7 @@ public class SecurityConfig {
                  .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                  .authorizeHttpRequests((auth) -> auth
                          // 공개 API
-                         .requestMatchers("/api/register", "/api/login", "/api/session", "/api/logout", "/api/movies/**" ).permitAll()
+                         .requestMatchers("/api/register", "/api/login", "/api/session", "/api/logout", "/api/movies/**", "/api/home/**" ).permitAll()
                          .requestMatchers(HttpMethod.GET, "/api/reviews/**", "/api/reservation/**").permitAll()
                          // 관리자 API
                          .requestMatchers("/api/admin/**").hasRole("ADMIN")

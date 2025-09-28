@@ -35,10 +35,10 @@ public class ReservationController {
     }
 
     // 영화선택
-    // 최근 개봉한 영화 10개 나열
+    // 상태가 상영전인 영화만 나열
     @GetMapping("/movies")
-    public ResponseEntity<List<MovieResponse>> getRecentTop10Movies(){
-        List<MovieResponse> response = movieService.getRecentTop10Movies()
+    public ResponseEntity<List<MovieResponse>> getScheduledMovies(){
+        List<MovieResponse> response = screeningInfoService.findAllScheduledMovies()
                 .stream()
                 .map(MovieResponse::from)
                 .toList();

@@ -1,5 +1,6 @@
 package com.example.movieplatform.reservation.repository;
 
+import com.example.movieplatform.movie.entity.Movie;
 import com.example.movieplatform.reservation.dto.ScreeningInfoDto;
 import com.example.movieplatform.reservation.entity.ScreeningInfo;
 import com.example.movieplatform.theater.entity.Screen;
@@ -40,6 +41,7 @@ public interface ScreeningInfoRepository extends JpaRepository<ScreeningInfo, Lo
         JOIN si.screen s
         JOIN si.movie m
         WHERE s.theater.id = :theaterId
+        AND si.screeningStatus = com.example.movieplatform.reservation.entity.ScreeningInfo.ScreeningStatus.SCHEDULED
         ORDER BY si.screeningDate, s.screenName, si.startTime
     """)
     List<ScreeningInfoDto> findScreeningDtoByTheaterId(@Param("theaterId")Long theaterId);
@@ -55,5 +57,13 @@ public interface ScreeningInfoRepository extends JpaRepository<ScreeningInfo, Lo
     List<ScreeningInfo> findByTheaterMovieAndDate(@Param("theaterId") Long theaterId,
                                                   @Param("docId") String docId,
                                                   @Param("screeningDate") LocalDate screeningDate);
+
+    @Query("""
+         SELECT DISTINCT m
+         FROM ScreeningInfo si
+         JOIN si.movie m
+         WHERE si.screeningStatus = com.example.movieplatform.reservation.entity.ScreeningInfo.ScreeningStatus.SCHEDULED
+    """)
+    List<Movie> findAllScheduledMovies();
 
 }

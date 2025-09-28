@@ -4,11 +4,14 @@ import com.example.movieplatform.common.exception.EntityNotFoundException;
 import com.example.movieplatform.movie.repository.MovieRepository;
 import com.example.movieplatform.movie.entity.Movie;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.resource.ResourceUrlEncodingFilter;
+import org.thymeleaf.spring6.expression.Mvc;
 
 import java.util.List;
 
@@ -47,8 +50,12 @@ public class MovieService {
         return movies;
     }
 
-//    public void deleteMovieById(String id) {
-//        Movie movie = getMovie(id);
-//        movieRepository.delete(movie);
-//    }
+    public List<Movie> getTop10RatedMovies() {
+        List<Movie> movies = movieRepository.findTop10ByOrderByAverageRatingDesc();
+        if (movies == null || movies.isEmpty()) {
+            throw new IllegalArgumentException("저장된 영화가 없습니다");
+        }
+        return movies;
+    }
+
 }

@@ -149,4 +149,9 @@ public class ScreeningInfoService {
     public List<ScreeningInfo> reservationScreeningInfo(Long theaterId, String docId, LocalDate screeningDate) {
         return screeningInfoRepository.findByTheaterMovieAndDate(theaterId, docId, screeningDate);
     }
+
+    public List<Movie> findAllScheduledMovies(){
+        return screeningInfoRepository.findAllScheduledMovies();
+    }
+
 }

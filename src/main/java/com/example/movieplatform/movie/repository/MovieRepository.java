@@ -22,5 +22,8 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
             "WHERE g.name = :genreName " +
             "ORDER BY m.title ASC")  // Movie 기준 정렬
     Page<Movie> findByGenreName(@Param("genreName") String genreName, Pageable pageable);
+    // 영화중에서 평점이 가장 높은 영화 10개 조회
+    List<Movie> findTop10ByOrderByAverageRatingDesc();
+    // 상영중인 영화 모두 조회
 
 }
