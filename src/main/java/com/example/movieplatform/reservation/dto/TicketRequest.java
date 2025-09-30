@@ -7,6 +7,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class TicketRequest {
-    private BookingTicket.CustomerType customerType;
+    private String customerType;
     private int count;
 }

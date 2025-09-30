@@ -13,6 +13,7 @@ public class MovieResponse {
     private Long runtime;
     private String repRlsDate;
     private String posterUrl;
+    private double averageRating; // 리뷰없으면 0.0 반환
 
     public static MovieResponse from(Movie movie) {
         return new MovieResponse(
@@ -21,7 +22,8 @@ public class MovieResponse {
                 mapRating(movie.getRating()),
                 movie.getRuntime(),
                 movie.getRepRlsDate(),
-                movie.getPosterUrl()
+                movie.getPosterUrl(),
+                movie.getAverageRating()
         );
     }
 

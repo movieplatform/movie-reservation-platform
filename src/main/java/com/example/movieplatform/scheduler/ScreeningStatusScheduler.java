@@ -32,6 +32,10 @@ public class ScreeningStatusScheduler {
             LocalDateTime startDateTime = LocalDateTime.of(screening.getScreeningDate(), screening.getStartTime());
             LocalDateTime endDateTime = LocalDateTime.of(screening.getScreeningDate(), screening.getEndTime());
 
+            if (screening.getEndTime().isBefore(screening.getStartTime())) {
+                endDateTime = endDateTime.plusDays(1);
+            }
+
             ScreeningInfo.ScreeningStatus oldStatus = screening.getScreeningStatus();
             ScreeningInfo.ScreeningStatus newStatus;
 

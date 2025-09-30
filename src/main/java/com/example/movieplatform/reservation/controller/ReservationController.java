@@ -2,7 +2,6 @@ package com.example.movieplatform.reservation.controller;
 
 import com.example.movieplatform.admin.dto.TheaterResponse;
 import com.example.movieplatform.movie.dto.MovieResponse;
-import com.example.movieplatform.movie.service.MovieService;
 import com.example.movieplatform.reservation.dto.ScreeningInfoDto;
 import com.example.movieplatform.reservation.service.ScreeningInfoService;
 import com.example.movieplatform.theater.service.TheaterService;
@@ -21,7 +20,6 @@ import java.util.List;
 @RequestMapping("/api/reservation")
 public class ReservationController {
     private final TheaterService theaterService;
-    private final MovieService movieService;
     private final ScreeningInfoService screeningInfoService;
     // 지역선택은 고정
     // 극장선택

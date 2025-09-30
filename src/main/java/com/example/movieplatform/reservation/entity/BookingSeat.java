@@ -15,4 +15,11 @@ public class BookingSeat {  // 예약 가능 여부 확인 가능
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id")
     private Booking booking;
+
+    public BookingSeat() {}
+
+    public BookingSeat(Seat seat, Booking booking) {
+        this.seat = seat;
+        this.booking = booking;
+    }
 }

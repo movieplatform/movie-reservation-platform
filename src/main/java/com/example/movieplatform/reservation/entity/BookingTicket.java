@@ -20,16 +20,27 @@ public class BookingTicket {
     private Long price;   // 시간별로 차등 + 고객 유형별로 차등계산
 
     @Getter
-    public enum CustomerType{
-        ADULT(0L),
-        TEEN(-1000L),
-        SENIOR(-2000L),
-        DISABLED(-3000L);
+    public enum CustomerType {
+        ADULT(0L, "성인"),
+        TEEN(-1000L, "청소년"),
+        SENIOR(-2000L, "노약자"),
+        DISABLED(-3000L, "장애인");
 
         private final Long discount;
+        private final String displayName;
 
-        CustomerType(long discount) {
+        CustomerType(long discount, String displayName) {
             this.discount = discount;
+            this.displayName = displayName;
+        }
+
+        public static CustomerType fromDisplayName(String displayName) {
+            for (CustomerType type : values()) {
+                if (type.displayName.equals(displayName)) {
+                    return type;
+                }
+            }
+            throw new IllegalArgumentException("Unknown customer type: " + displayName);
         }
     }
     public BookingTicket(){}

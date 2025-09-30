@@ -1,13 +1,18 @@
 package com.example.movieplatform.reservation.controller;
 
+import com.example.movieplatform.auth.dto.UserPrincipal;
+import com.example.movieplatform.reservation.dto.BookingRequest;
 import com.example.movieplatform.reservation.dto.ScreenDto;
 import com.example.movieplatform.reservation.dto.SeatDto;
+import com.example.movieplatform.reservation.service.BookingService;
 import com.example.movieplatform.theater.entity.Screen;
 import com.example.movieplatform.theater.entity.Seat;
 import com.example.movieplatform.theater.service.ScreenService;
 import com.example.movieplatform.theater.service.SeatService;
+import com.example.movieplatform.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +24,7 @@ import java.util.Set;
 public class BookingController {
     private final ScreenService screenService;
     private final SeatService seatService;
+    private final BookingService bookingService;
 
     @GetMapping("/screen")
     public ResponseEntity<ScreenDto> getScreenByScreeningInfoId(@RequestParam Long screeningInfoId) {
@@ -35,6 +41,12 @@ public class BookingController {
         return ResponseEntity.ok(screenDto);
     }
 
-//    @PostMapping
-//    public ResponseEntity<String>
+    // 결제하기 버튼 누르는 순간 이 메서드 호출
+    @PostMapping
+    public ResponseEntity<String> saveBookingInfo(@AuthenticationPrincipal UserPrincipal userPrincipal,
+            @RequestBody BookingRequest bookingRequest) {
+        User user = userPrincipal.getUser();
+        bookingService.saveBookingInfo(user, bookingRequest);
+        return ResponseEntity.ok("예약정보 저장 완료!!");
+    }
 }

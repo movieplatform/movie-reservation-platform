@@ -30,4 +30,23 @@ public class Booking {
         CONFIRMED,  // 결제 완료
         CANCELLED   // 결제실패, 시간초과, 사용자 취소
     }
+
+    public Booking(){}
+
+    public Booking(User user, ScreeningInfo screeningInfo){
+        this.bookingDate = LocalDate.now();
+        this.totalPrice = 0L;
+        this.bookingStatus = BookingStatus.HOLD;
+        this.user = user;
+        this.screeningInfo = screeningInfo;
+    }
+
+    // 결제 버튼 누를시 예약 정보 저장
+    public static Booking ofBooking(User user, ScreeningInfo screeningInfo){
+        return new Booking(user, screeningInfo);
+    }
+
+    public void updateTotalPrice(Long totalPrice){
+        this.totalPrice = totalPrice;
+    }
 }

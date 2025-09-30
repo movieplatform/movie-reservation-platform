@@ -8,7 +8,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class BookingRequest {
-    private Long ScreeningInfoId;
+    private Long screeningInfoId;
     private List<TicketRequest> tickets;
     private List<Long> selectedSeatIds;
 }
