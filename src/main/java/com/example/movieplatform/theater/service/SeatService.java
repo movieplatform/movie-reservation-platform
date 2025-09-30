@@ -54,8 +54,8 @@ public class SeatService {
     }
 
     @Transactional(readOnly = true)
-    public List<Seat> getSeatsByScreen(Screen screen) {
-        return seatRepository.findByScreen(screen);
+    public List<Seat> getSeatsByScreenId(Long screenId) {
+        return seatRepository.findByScreenId(screenId);
     }
 
     @Transactional(readOnly = true)

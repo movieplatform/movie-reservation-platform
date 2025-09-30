@@ -12,7 +12,9 @@ public class Seat {
     private Long id;
 
     private String seatNumber;
+    @Column(name = "row_num", nullable = false)
     private int rowNumber;
+    @Column(name = "col_num", nullable = false)
     private int colNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
