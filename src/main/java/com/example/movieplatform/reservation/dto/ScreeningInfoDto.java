@@ -10,6 +10,7 @@ import java.time.LocalTime;
 @Getter
 @AllArgsConstructor
 public class ScreeningInfoDto {
+    private Long ScreeningInfoId;
     private LocalDate screeningDate;
     private String screenName;
     private String movieTitle;
@@ -23,6 +24,7 @@ public class ScreeningInfoDto {
 
     public static ScreeningInfoDto from(ScreeningInfo screeningInfo){
         return new ScreeningInfoDto(
+                screeningInfo.getId(),
                 screeningInfo.getScreeningDate(),
                 screeningInfo.getScreen().getScreenName(),
                 screeningInfo.getMovie().getTitle(),
