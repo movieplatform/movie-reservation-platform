@@ -30,6 +30,7 @@ public interface ScreeningInfoRepository extends JpaRepository<ScreeningInfo, Lo
 
     @Query("""
         SELECT new com.example.movieplatform.reservation.dto.ScreeningInfoDto(
+            si.id,
             si.screeningDate,
             s.screenName,
             m.title,
