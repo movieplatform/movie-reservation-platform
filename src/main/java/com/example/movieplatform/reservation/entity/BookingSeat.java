@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "booking_seat")
-public class BookingSeat {  // 예약 가능 여부 확인 가능
+public class  BookingSeat {  // 예약 가능 여부 확인 가능
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

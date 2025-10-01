@@ -49,4 +49,8 @@ public class Booking {
     public void updateTotalPrice(Long totalPrice){
         this.totalPrice = totalPrice;
     }
+
+    public void updateBookingStatus(BookingStatus bookingStatus){
+        this.bookingStatus = bookingStatus;
+    }
 }

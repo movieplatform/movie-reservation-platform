@@ -20,4 +20,15 @@ public interface BookingSeatRepository extends JpaRepository<BookingSeat, Long> 
                   )
          """)
     List<Long> findOccupiedSeatByScreeningInfoId(@Param("screeningInfoId") Long screeningInfoId);
+
+
+    @Query("""
+         SELECT s.seatNumber
+         FROM BookingSeat bs
+         JOIN bs.seat s
+         JOIN bs.booking b
+         WHERE b.id = :bookingId
+"""
+    )
+    List<String> findSeatNumbersByBookingId(Long bookingId);
 }

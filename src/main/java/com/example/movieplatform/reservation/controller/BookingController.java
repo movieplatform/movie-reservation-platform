@@ -43,10 +43,10 @@ public class BookingController {
 
     // 결제하기 버튼 누르는 순간 이 메서드 호출
     @PostMapping
-    public ResponseEntity<String> saveBookingInfo(@AuthenticationPrincipal UserPrincipal userPrincipal,
+    public ResponseEntity<Long> saveBookingInfo(@AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody BookingRequest bookingRequest) {
         User user = userPrincipal.getUser();
-        bookingService.saveBookingInfo(user, bookingRequest);
-        return ResponseEntity.ok("예약정보 저장 완료!!");
+        Long bookingId = bookingService.saveBookingInfo(user, bookingRequest);
+        return ResponseEntity.ok(bookingId);
     }
 }

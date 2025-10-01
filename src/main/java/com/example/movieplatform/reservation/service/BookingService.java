@@ -28,7 +28,7 @@ public class BookingService {
     private final ScreeningInfoRepository screeningInfoRepository;
     private final SeatRepository seatRepository;
 
-    public void saveBookingInfo(User user, BookingRequest bookingRequest) {
+    public Long saveBookingInfo(User user, BookingRequest bookingRequest) {
         ScreeningInfo screeningInfo = screeningInfoRepository.findById(bookingRequest.getScreeningInfoId())
                 .orElseThrow(() -> new RuntimeException("상영정보 없음"));
 
@@ -60,5 +60,6 @@ public class BookingService {
         Long totalPrice = tickets.stream().mapToLong(BookingTicket::getPrice).sum();
         booking.updateTotalPrice(totalPrice);  // 예약자가 결제할 총금액(예를들면 어른2 어린이2명이면 총 4명가격)
         bookingRepository.save(booking);
+        return booking.getId();
     }
 }

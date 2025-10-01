@@ -1,10 +1,12 @@
 package com.example.movieplatform.user.controller;
 
 import com.example.movieplatform.auth.dto.UserPrincipal;
+import com.example.movieplatform.reservation.service.ReservationService;
 import com.example.movieplatform.review.dto.ReviewResponse;
 import com.example.movieplatform.review.entity.Review;
 import com.example.movieplatform.review.service.ReviewService;
 import com.example.movieplatform.user.dto.UserProfileDto;
+import com.example.movieplatform.user.dto.UserReservationDto;
 import com.example.movieplatform.user.dto.UserReviewDto;
 import com.example.movieplatform.user.entity.User;
 import com.example.movieplatform.user.service.UserService;
@@ -34,6 +36,7 @@ public class MyPageController {
 
     private final UserService userService;
     private final ReviewService reviewService;
+    private final ReservationService reservationService;
 
     // 회원정보 페이지
     @GetMapping("/profile")
@@ -60,6 +63,13 @@ public class MyPageController {
         }
 
         return ResponseEntity.ok("회원탈퇴 완료!");
+    }
+
+    @GetMapping("/reservation")
+    public ResponseEntity<List<UserReservationDto>> reservationPage(@AuthenticationPrincipal UserPrincipal userPrincipal){
+        User user = userPrincipal.getUser();
+        List<UserReservationDto> myReservations = reservationService.getUserReservation(user.getId());
+        return ResponseEntity.ok(myReservations);
     }
 
 
