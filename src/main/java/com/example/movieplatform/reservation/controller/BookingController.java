@@ -26,6 +26,11 @@ public class BookingController {
     private final SeatService seatService;
     private final BookingService bookingService;
 
+    @GetMapping("/isLogin")
+    public ResponseEntity<String> isLogin() {
+        return ResponseEntity.ok("로그인이 필요합니다!!");
+    }
+
     @GetMapping("/screen")
     public ResponseEntity<ScreenDto> getScreenByScreeningInfoId(@RequestParam Long screeningInfoId) {
         Screen screen = screenService.getScreenByScreeningInfoId(screeningInfoId);

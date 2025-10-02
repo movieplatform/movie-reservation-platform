@@ -10,6 +10,7 @@ import com.example.movieplatform.reservation.repository.BookingTicketRepository;
 import com.example.movieplatform.user.dto.UserReservationDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -82,5 +83,11 @@ public class ReservationService {
             myReservation.setTicketSummary(ticketSummary);
         }
         return myReservations;
+    }
+
+    public void cancelReservation(@RequestParam Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new EntityNotFoundException(bookingId.toString()));
+        booking.updateBookingStatus(Booking.BookingStatus.CANCELLED);
+        bookingRepository.save(booking);
     }
 }

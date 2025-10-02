@@ -26,4 +26,10 @@ public class PaymentController {
         paymentService.savePayment(usedPoint, bookingId);
         return ResponseEntity.ok("결제 완료!!");
     }
+
+    @GetMapping("/cancel")
+    public ResponseEntity<String> cancelReservation(@RequestParam Long bookingId) {
+        reservationService.cancelReservation(bookingId);
+        return ResponseEntity.ok("예약 취소!!");
+    }
 }
