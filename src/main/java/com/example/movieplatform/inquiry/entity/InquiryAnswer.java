@@ -26,4 +26,13 @@ public class InquiryAnswer {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public InquiryAnswer(){}
+
+    public InquiryAnswer(String content, Inquiry inquiry, User user) {
+        this.content = content;
+        this.createdAt = LocalDateTime.now();
+        this.inquiry = inquiry;
+        this.user = user;
+    }
 }
