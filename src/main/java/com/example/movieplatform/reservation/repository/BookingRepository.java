@@ -31,6 +31,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
        JOIN s.theater t
        WHERE b.user.id = :userId
        AND b.bookingStatus = com.example.movieplatform.reservation.entity.Booking.BookingStatus.CONFIRMED
+       ORDER BY b.bookingDate DESC, b.id DESC
 """)
     List<UserReservationDto> findReservationByUserId(@Param("userId") Long userId);
 

@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PointRepository extends JpaRepository<Point, Long> {
-    List<Point> findByUserId(Long userId);
+    List<Point> findByUserIdOrderByTransactionDateDesc(Long userId);
 
     @Query("""
         SELECT COALESCE(SUM(

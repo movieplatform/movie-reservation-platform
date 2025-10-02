@@ -2,6 +2,7 @@ package com.example.movieplatform.point.controller;
 
 import com.example.movieplatform.auth.dto.UserPrincipal;
 import com.example.movieplatform.point.dto.UserPointResponse;
+import com.example.movieplatform.point.dto.UserPointSummary;
 import com.example.movieplatform.point.entity.Point;
 import com.example.movieplatform.point.service.PointService;
 import com.example.movieplatform.user.entity.User;
@@ -28,28 +29,10 @@ public class PointController {
 //    로그인한 유저의 자세한 정보(User 엔티티, 권한, 프로필 등) 가 필요하면 → @AuthenticationPrincipal
 
     @GetMapping("/points")
-    public ResponseEntity<Map<String, Object>> points(@AuthenticationPrincipal UserPrincipal userPrincipal, Model model) {
+    public ResponseEntity<UserPointSummary> points(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         User user = userPrincipal.getUser();
+        UserPointSummary response = pointService.getUserPointSummary(user.getId());
 
-        List<Point> pointHistory = pointService.getAllPointsByUserId(user.getId());
-
-        List<UserPointResponse> points = pointHistory.stream().map(p -> new UserPointResponse(
-                p.getTransactionDate(),    // 적립 또는 사용한 날짜
-                p.getTransactionType().getDescription(),     //  적립인지 사용인지
-                p.getPointReason().getDescription(),   // 사유
-                p.getTransactionType() == Point.TransactionType.EARN ? p.getPointAmount() : -p.getPointAmount()  // 예) 적립이면 +500 사용이면 -500
-        )).toList();
-
-        // 총 포인트
-        long totalPoint = pointHistory.stream()
-                .mapToLong(p -> p.getTransactionType() == Point.TransactionType.EARN ? p.getPointAmount() : -p.getPointAmount())
-                .sum();
-
-        Map<String, Object> result = Map.of(
-                "points", points,
-                "total", totalPoint
-        );
-
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(response);
     }
 }
