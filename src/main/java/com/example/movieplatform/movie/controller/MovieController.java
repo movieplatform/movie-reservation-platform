@@ -1,5 +1,6 @@
 package com.example.movieplatform.movie.controller;
 
+import com.example.movieplatform.movie.dto.SearchResponse;
 import com.example.movieplatform.movie.entity.Movie;
 import com.example.movieplatform.movie.service.MovieService;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,15 @@ public class MovieController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<SearchResponse>> search(@RequestParam String keyword){
+        List<SearchResponse> searchMovies = movieService.searchMovies(keyword)
+                .stream()
+                .map(SearchResponse::from)
+                .toList();
+
+        return ResponseEntity.ok(searchMovies);
     }
 }

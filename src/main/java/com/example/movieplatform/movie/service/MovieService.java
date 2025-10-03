@@ -58,4 +58,8 @@ public class MovieService {
         return movies;
     }
 
+    public List<Movie> searchMovies(String keyword) {
+        return movieRepository.findTop10ByTitleContainingOrderByRepRlsDateDesc(keyword);
+    }
+
 }
