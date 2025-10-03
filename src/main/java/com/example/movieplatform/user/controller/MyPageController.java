@@ -1,10 +1,12 @@
 package com.example.movieplatform.user.controller;
 
 import com.example.movieplatform.auth.dto.UserPrincipal;
+import com.example.movieplatform.inquiry.service.InquiryService;
 import com.example.movieplatform.reservation.service.ReservationService;
 import com.example.movieplatform.review.dto.ReviewResponse;
 import com.example.movieplatform.review.entity.Review;
 import com.example.movieplatform.review.service.ReviewService;
+import com.example.movieplatform.user.dto.UserInquiryDto;
 import com.example.movieplatform.user.dto.UserProfileDto;
 import com.example.movieplatform.user.dto.UserReservationDto;
 import com.example.movieplatform.user.dto.UserReviewDto;
@@ -37,6 +39,7 @@ public class MyPageController {
     private final UserService userService;
     private final ReviewService reviewService;
     private final ReservationService reservationService;
+    private final InquiryService inquiryService;
 
     // 회원정보 페이지
     @GetMapping("/profile")
@@ -72,12 +75,19 @@ public class MyPageController {
         return ResponseEntity.ok(myReservations);
     }
 
-
-    // 디티오 만들어서 반환
     @GetMapping("/reviews")
     public ResponseEntity<List<UserReviewDto>> reviews(@AuthenticationPrincipal UserPrincipal userPrincipal){
         User user = userPrincipal.getUser();
         List<UserReviewDto> myReviews = reviewService.getMyReviews(user.getId());
         return ResponseEntity.ok(myReviews);
+    }
+
+    @GetMapping("/inquiries")
+    public ResponseEntity<List<UserInquiryDto>> inquiries(@AuthenticationPrincipal UserPrincipal userPrincipal){
+        System.out.println("inquiries 컨트롤러 진입");
+        System.out.println("userPrincipal = " + userPrincipal);
+        User user = userPrincipal.getUser();
+        List<UserInquiryDto> response = inquiryService.getUserInquiries(user.getId());
+        return ResponseEntity.ok(response);
     }
 }

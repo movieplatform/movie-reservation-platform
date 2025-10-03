@@ -20,7 +20,9 @@ public class Inquiry {
     @Column(columnDefinition = "TEXT")
     private String content;
     private LocalDateTime createdAt;
+    @Enumerated(EnumType.STRING)
     private InquiryType inquiryType;
+    @Enumerated(EnumType.STRING)
     private InquiryStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -75,6 +77,10 @@ public class Inquiry {
         InquiryStatus(String label) {
             this.label = label;
         }
+    }
+
+    public void updateInquiryStatus(InquiryStatus status) {
+        this.status = status;
     }
 
 }

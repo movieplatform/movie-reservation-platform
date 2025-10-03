@@ -7,6 +7,7 @@ import com.example.movieplatform.inquiry.entity.InquiryAnswer;
 import com.example.movieplatform.inquiry.repository.InquiryAnswerRepository;
 import com.example.movieplatform.inquiry.repository.InquiryRepository;
 import com.example.movieplatform.user.Repository.UserRepository;
+import com.example.movieplatform.user.dto.UserInquiryDto;
 import com.example.movieplatform.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,12 @@ public class InquiryService {
 
         InquiryAnswer answer = new InquiryAnswer(content, inquiry, user);
         inquiryAnswerRepository.save(answer);
+
+        inquiry.updateInquiryStatus(Inquiry.InquiryStatus.ANSWERED);
+        inquiryRepository.save(inquiry);
+    }
+
+    public List<UserInquiryDto> getUserInquiries(Long userId) {
+        return inquiryRepository.findByUserId(userId);
     }
 }

@@ -1,22 +1,16 @@
 package com.example.movieplatform.point.controller;
 
 import com.example.movieplatform.auth.dto.UserPrincipal;
-import com.example.movieplatform.point.dto.UserPointResponse;
 import com.example.movieplatform.point.dto.UserPointSummary;
-import com.example.movieplatform.point.entity.Point;
 import com.example.movieplatform.point.service.PointService;
 import com.example.movieplatform.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
