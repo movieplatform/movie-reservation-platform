@@ -84,8 +84,6 @@ public class MyPageController {
 
     @GetMapping("/inquiries")
     public ResponseEntity<List<UserInquiryDto>> inquiries(@AuthenticationPrincipal UserPrincipal userPrincipal){
-        System.out.println("inquiries 컨트롤러 진입");
-        System.out.println("userPrincipal = " + userPrincipal);
         User user = userPrincipal.getUser();
         List<UserInquiryDto> response = inquiryService.getUserInquiries(user.getId());
         return ResponseEntity.ok(response);
