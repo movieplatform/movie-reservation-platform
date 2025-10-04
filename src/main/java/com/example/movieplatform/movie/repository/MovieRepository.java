@@ -24,7 +24,10 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
     Page<Movie> findByGenreName(@Param("genreName") String genreName, Pageable pageable);
     // 영화중에서 평점이 가장 높은 영화 10개 조회
     List<Movie> findTop10ByOrderByAverageRatingDesc();
-    // 검화 검색
-    List<Movie> findTop10ByTitleContainingOrderByRepRlsDateDesc(String keyword);
+    // 검화 검색 , 띄어쓰기 없애고 비교
+    @Query("SELECT m FROM Movie m " +
+            "WHERE REPLACE(m.title, ' ', '') LIKE %:keyword% " +
+            "ORDER BY m.repRlsDate DESC")
+    List<Movie> searchByTitleIgnoreSpaces(@Param("keyword") String keyword);
 
 }

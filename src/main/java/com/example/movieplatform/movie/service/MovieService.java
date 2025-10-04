@@ -59,7 +59,8 @@ public class MovieService {
     }
 
     public List<Movie> searchMovies(String keyword) {
-        return movieRepository.findTop10ByTitleContainingOrderByRepRlsDateDesc(keyword);
+        String trimmedKeyword = keyword.replaceAll("\\s+", ""); // 입력값 공백 제거
+        return movieRepository.searchByTitleIgnoreSpaces(trimmedKeyword);
     }
 
 }
