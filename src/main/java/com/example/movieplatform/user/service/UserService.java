@@ -23,7 +23,10 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll()
                 .stream()
-                .sorted(Comparator.comparing((User u) -> u.getRole() == User.Role.ADMIN).reversed())
+                .sorted(Comparator
+                        .comparing((User u) -> u.getRole() == User.Role.ADMIN ? 0 : 1)
+                        .thenComparing(u -> u.getStatus() == User.Status.DELETED ? 1 : 0)
+                )
                 .toList();
     }
 

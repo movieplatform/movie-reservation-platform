@@ -12,12 +12,6 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
-    @ExceptionHandler(EmailAlreadyExistsException.class)
-    public ResponseEntity<String> handleEmailAlreadyExistsException(EmailAlreadyExistsException e) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationException(MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();
@@ -29,10 +23,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
-    @ExceptionHandler({EntityNotFoundException.class, TheaterAlreadyExistsException.class, AlreadyWithdrawException.class, AdminCannotWithdrawException.class})
-    public String handleException(Exception e, Model model) {
-        model.addAttribute("errorMessage", e.getMessage());
-        return "error";
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<String> handleApiException(ApiException ex) {
+        return ResponseEntity.status(ex.getStatus()).body(ex.getMessage());
     }
 
 }

@@ -3,8 +3,10 @@ package com.example.movieplatform.reservation.entity;
 import com.example.movieplatform.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "booking")
@@ -15,7 +17,10 @@ public class Booking {
     private Long id;
     private LocalDate bookingDate;
     private Long totalPrice;
+    @Enumerated(EnumType.STRING)
     private BookingStatus bookingStatus;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

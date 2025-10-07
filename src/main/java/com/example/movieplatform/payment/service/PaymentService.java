@@ -21,6 +21,10 @@ public class PaymentService {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow( () -> new EntityNotFoundException("Booking not found"));
 
+        if (booking.getBookingStatus() != Booking.BookingStatus.HOLD) {
+            throw new IllegalStateException("결제 불가능한 예약 상태입니다.");
+        }
+
         long currentPoints = pointRepository.getUserPointBalance(booking.getUser().getId());
 
         if (usedPoint > currentPoints) {

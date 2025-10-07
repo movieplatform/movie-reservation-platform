@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
@@ -58,4 +59,9 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
        WHERE b.id = :bookingId
 """)
     UserReservationDto findReservationByBookingId(@Param("bookingId") Long bookingId);
+
+
+    // 5분이상 결제 안한 예약 찾기
+    @Query("SELECT b FROM Booking b WHERE b.bookingStatus = 'HOLD' AND b.createdAt < :expireTime")
+    List<Booking> findExpiredBookings(@Param("expireTime") LocalDateTime expireTime);
 }

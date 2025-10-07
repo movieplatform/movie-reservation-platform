@@ -28,8 +28,27 @@ public class Movie {
 
 
     public static Movie ofMovie(KMDBApiResponse.ResultWrapper result, String validPoster, String plot){
-        return new Movie(result.docid(), result.title(), result.titleEng(), Long.valueOf(result.runtime()), result.rating(),
-                result.genre(), result.repRlsDate(), validPoster, plot, 0);
+        Long runtime = 0L;  // 기본값
+        if(result.runtime() != null && !result.runtime().isEmpty()){
+            try {
+                runtime = Long.valueOf(result.runtime());
+            } catch (NumberFormatException e){
+                runtime = 0L;  // 혹은 null 처리
+            }
+        }
+
+        return new Movie(
+                result.docid(),
+                result.title(),
+                result.titleEng(),
+                runtime,
+                result.rating(),
+                result.genre(),
+                result.repRlsDate(),
+                validPoster,
+                plot,
+                0
+        );
     }
 
     public void updateAverageRating(double avg){
