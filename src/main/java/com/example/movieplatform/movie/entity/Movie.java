@@ -1,6 +1,6 @@
 package com.example.movieplatform.movie.entity;
 
-import com.example.movieplatform.movie.dto.ResultWrapper;
+import com.example.movieplatform.movie.dto.KMDBApiResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,9 +27,9 @@ public class Movie {
     public Movie(){};
 
 
-    public static Movie ofMovie(ResultWrapper result, String validPoster, String plot){
-        return new Movie(result.DOCID, result.title, result.titleEng, result.runtime, result.rating,
-                result.genre, result.repRlsDate, validPoster, plot, 0);
+    public static Movie ofMovie(KMDBApiResponse.ResultWrapper result, String validPoster, String plot){
+        return new Movie(result.docid(), result.title(), result.titleEng(), Long.valueOf(result.runtime()), result.rating(),
+                result.genre(), result.repRlsDate(), validPoster, plot, 0);
     }
 
     public void updateAverageRating(double avg){

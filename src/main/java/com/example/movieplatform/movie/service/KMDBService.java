@@ -1,12 +1,10 @@
 package com.example.movieplatform.movie.service;
 
 import com.example.movieplatform.admin.dto.MovieLoadRequest;
+import com.example.movieplatform.movie.dto.KMDBApiResponse;
 import com.example.movieplatform.movie.repository.GenreRepository;
 import com.example.movieplatform.movie.repository.MovieGenreRepository;
 import com.example.movieplatform.movie.repository.MovieRepository;
-import com.example.movieplatform.movie.dto.DataWrapper;
-import com.example.movieplatform.movie.dto.KMDBResponse;
-import com.example.movieplatform.movie.dto.ResultWrapper;
 import com.example.movieplatform.movie.entity.Genre;
 import com.example.movieplatform.movie.entity.Movie;
 import com.example.movieplatform.movie.entity.MovieGenre;
@@ -30,42 +28,27 @@ public class KMDBService {
     private final GenreRepository genreRepository;
     private final MovieGenreRepository movieGenreRepository;
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
     @Value("${kmdb.service-key}")
     private String serviceKey;
 
     public void loadMovies(MovieLoadRequest request) {
         try {
             String json = fetchMoviesJson(request);
-            KMDBResponse response = parseJson(json);
+            KMDBApiResponse response = parseJson(json);
             boolean hasSavedMovie = false;
 
-            if (response != null && response.Data != null) {
-                for (DataWrapper dataWrapper : response.Data) {
-                    if (dataWrapper.Result != null) {
-                        for (ResultWrapper result : dataWrapper.Result) {
-                            Optional<Movie> existingMovie = movieRepository.findByDocId(result.DOCID);
+            for (KMDBApiResponse.DataWrapper dataWrapper : response.data()) {
+                if (dataWrapper.result() == null) continue;
 
-                            Movie movie;
-                            if (existingMovie.isPresent()) {
-                                movie = existingMovie.get();
-
-                            } else {
-                                String validPoster = getFirstValidPoster(result.posters);
-                                if (validPoster == null) {
-                                    continue; // 포스터 없으면 아예 저장하지 않음
-                                }
-
-                                String koreanPlot = extractKoreanPlot(result);
-                                movie = Movie.ofMovie(result, validPoster, koreanPlot);
-                                movieRepository.save(movie);
-                                hasSavedMovie = true;
-                            }
-
-                            saveGenresForMovie(movie, result.genre);
-                        }
+                for (KMDBApiResponse.ResultWrapper result : dataWrapper.result()) {
+                    boolean saved = processMovie(result);
+                    if (saved) {
+                        hasSavedMovie = true;
                     }
                 }
             }
+
             if (!hasSavedMovie) {
                 throw new RuntimeException("검색 조건에 맞는 영화가 없습니다.");
             }
@@ -73,6 +56,24 @@ public class KMDBService {
         } catch (Exception e) {
             throw new RuntimeException("영화 데이터를 가져오는 중 오류 발생: " + e.getMessage(), e);
         }
+    }
+
+    private boolean processMovie(KMDBApiResponse.ResultWrapper result) {
+        Optional<Movie> existingMovie = movieRepository.findByDocId(result.docid());
+        Movie movie;
+
+        if (existingMovie.isPresent()) {
+            movie = existingMovie.get();
+        } else {
+            String validPoster = getFirstValidPoster(result.posters());
+            if (validPoster == null) return false;
+
+            String koreanPlot = extractKoreanPlot(result);
+            movie = Movie.ofMovie(result, validPoster, koreanPlot);
+            movieRepository.save(movie);
+        }
+        saveGenresForMovie(movie, result.genre());
+        return true;
     }
 
     private String fetchMoviesJson(MovieLoadRequest request) {  // 에외처리?
@@ -98,9 +99,8 @@ public class KMDBService {
 //    Connection: [keep-alive]
 //    Server: [Apache]
 
-    private KMDBResponse parseJson(String json) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(json, KMDBResponse.class);
+    private KMDBApiResponse parseJson(String json) throws JsonProcessingException {
+        return objectMapper.readValue(json, KMDBApiResponse.class);
     }
 
     public void saveGenresForMovie(Movie movie, String genreString) {
@@ -150,15 +150,14 @@ public class KMDBService {
         }
     }
 
-    private String extractKoreanPlot(ResultWrapper result) {
-        if (result.plots != null && result.plots.plot != null) {
-            return result.plots.plot.stream()
-                    .filter(p -> "한국어".equals(p.plotLang))
-                    .map(p -> p.plotText)
+    private String extractKoreanPlot(KMDBApiResponse.ResultWrapper result) {
+        if (result.plots() != null && result.plots().plot() != null) {
+            return result.plots().plot().stream()
+                    .filter(p -> "한국어".equals(p.plotLang()))
+                    .map(KMDBApiResponse.Plot::plotText)
                     .findFirst()
                     .orElse(null);
         }
         return null;
     }
-
 }
