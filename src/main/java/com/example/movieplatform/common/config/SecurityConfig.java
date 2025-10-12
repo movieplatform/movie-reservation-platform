@@ -3,6 +3,7 @@ package com.example.movieplatform.common.config;
 import com.example.movieplatform.auth.service.CustomOAuth2UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -23,6 +24,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
+
+    @Value("${FRONTEND.URL}")
+    private String frontendUrl;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -59,7 +63,7 @@ public class SecurityConfig {
                          .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                          .successHandler((request, response, authentication) -> {
                              // 로그인 성공 후 프론트로 이동
-                             response.sendRedirect("http://localhost:3000/");
+                             response.sendRedirect(frontendUrl + "/");
                          })
                  )
 
@@ -80,7 +84,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);  // 쿠키 허용
-        corsConfiguration.addAllowedOrigin("http://localhost:3000");
+        corsConfiguration.addAllowedOrigin(frontendUrl);
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
 
