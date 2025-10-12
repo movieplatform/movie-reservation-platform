@@ -25,7 +25,7 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
 
-    @Value("${FRONTEND.URL}")
+    @Value("${FRONTEND_URL}")
     private String frontendUrl;
 
     @Bean
