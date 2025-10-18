@@ -20,6 +20,13 @@ public class HomeController {
     @GetMapping
     public ResponseEntity<List<MovieResponse>> getTop10RatedMovies() {
         List<Movie> movies = movieService.getTop10RatedMovies();
+
+        Movie dummy = new Movie();
+        dummy.setDocId("123");
+        dummy.setTitle("Dummy Test Movie");
+        dummy.setRating("3.0");
+        movies.add(dummy);
+
         List<MovieResponse> response = movies
                 .stream()
                 .map(MovieResponse::from)

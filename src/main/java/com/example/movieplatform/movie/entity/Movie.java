@@ -4,11 +4,13 @@ import com.example.movieplatform.movie.dto.KMDBApiResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "movies")
 @AllArgsConstructor
 @Getter
+@Setter
 public class Movie {
     @Id
     private String docId;
