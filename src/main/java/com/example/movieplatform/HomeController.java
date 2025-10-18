@@ -23,7 +23,7 @@ public class HomeController {
 
         Movie dummy = new Movie();
         dummy.setDocId("123");
-        dummy.setTitle("Dummy Test Movie444");
+        dummy.setTitle("Dummy Test Movie5");
         dummy.setRating("3.0");
         movies.add(dummy);
 
