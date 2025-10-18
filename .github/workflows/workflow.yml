@@ -31,16 +31,9 @@ jobs:
             source /home/ubuntu/env.sh
             
             echo "3. 기존 애플리케이션 프로세스 종료"
-            CURRENT_PID=$(pgrep -f "java -jar")
-            if [ -z "$CURRENT_PID" ]; then
-              echo "> 실행 중인 애플리케이션이 없습니다."
-            else
-              echo "> kill -9 $CURRENT_PID"
-              set +e
-              kill -9 $CURRENT_PID 
-              set -e
-              sleep 5
-            fi
+            pkill -9 -f "java -jar" || true 
+            
+            sleep 5
             
             echo "4. Maven 빌드 (clean package)"
             mvn clean package -DskipTests 
