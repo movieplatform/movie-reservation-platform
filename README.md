@@ -93,7 +93,7 @@
 
 ## 🧱 ERD
 
-<details>
+<details open>
 <summary>ERD 보기</summary>
 
 ![ERD](https://github.com/movieplatform/movie-reservation-platform/blob/main/erd.png)
@@ -101,3 +101,25 @@
 🔗 [ERDCloud에서 보기](https://www.erdcloud.com/d/QbGLM37ZgdvvYHAye)
 
 </details>
+
+## 🚀 배포 환경
+
+| 구성요소 | 기술 스택 | 설명 |
+|-----------|------------|------|
+| **서버** | AWS EC2 (Ubuntu 22.04) | Spring Boot 애플리케이션 구동 |
+| **웹 서버** | Nginx | SSL 인증 및 Reverse Proxy 설정 |
+| **정적 리소스** | AWS S3 + CloudFront | 프론트엔드 배포 및 CDN 캐싱 |
+| **데이터베이스** | AWS RDS (MySQL 8.0) | 영화, 회원, 예약, 리뷰 등 데이터 저장 |
+| **CI/CD** | GitHub Actions | main 브랜치 푸시 시 자동 빌드 및 배포 |
+| **도메인/보안** | Route53 + SSL 인증서 | HTTPS 통신 보안 |
+
+## ⚙️ 트러블슈팅
+
+| 주제 | 문제 상황 | 해결 방법 | 개선 결과 |
+|------|------------|------------|------------|
+| **동시성 제어** | 여러 사용자가 동시에 같은 좌석을 예약 | `@Transactional` + 비관적 락(`PESSIMISTIC_WRITE`) 적용 | 중복 예약 문제 해결 |
+| **삭제 전략** | 데이터 참조 제약으로 인해 영화 삭제 불가 | Soft Delete 적용 및 `is_deleted` 플래그 추가 | 무결성 유지 및 안전한 삭제 가능 |
+| **검색 성능 개선** | LIKE 검색 시 속도 저하 | Full-Text Index / B-Tree 비교 및 검증 | 검색 속도 최대 3배 개선 |
+
+## 🎥 시연 영상
+[🔗 시연 영상 바로가기](https://youtu.be/xxxxxxxx)
