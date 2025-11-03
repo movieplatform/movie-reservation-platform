@@ -15,15 +15,18 @@
 
 ---
 
-## 🧰 기술 스택
+<br>
 
-### ✅ Backend
+## 🛠️ 기술 스택
 
+| 구분 | 기술 |
+| :---: | :--- |
+| **Back-End** | <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white"> <img src="https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=spring-security&logoColor=white"> <img src="https://img.shields.io/badge/JPA-59666C?style=for-the-badge&logo=hibernate&logoColor=white"> <img src="https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white"> <img src="https://img.shields.io/badge/Session_Login-FFCC00?style=for-the-badge&logo=databricks&logoColor=black"> |
+| **Front-End** | <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black"> |
+| **Infra/DevOps** | <img src="https://img.shields.io/badge/AWS_EC2-FF9900?style=for-the-badge&logo=amazon-ec2&logoColor=white"> <img src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white"> <img src="https://img.shields.io/badge/AWS_S3-569A31?style=for-the-badge&logo=amazon-s3&logoColor=white"> <img src="https://img.shields.io/badge/CloudFront-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white"> <img src="https://img.shields.io/badge/AWS_RDS-527FFF?style=for-the-badge&logo=amazon-rds&logoColor=white"> <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white"> <img src="https://img.shields.io/badge/Route53-FF9900?style=for-the-badge&logo=amazon-route-53&logoColor=white"> <img src="https://img.shields.io/badge/SSL-003366?style=for-the-badge&logo=letsencrypt&logoColor=white"> |
+| **Database** | <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> |
 
-### ✅ Frontend
-
-
-### ✅ DevOps
+<br>
 
 
 ---
@@ -106,11 +109,11 @@
 
 | 구성요소 | 기술 스택 | 설명 |
 |-----------|------------|------|
-| **서버** | AWS EC2 (Ubuntu 22.04) | Spring Boot 애플리케이션 구동 |
+| **서버** | AWS EC2 | Spring Boot 애플리케이션 구동 |
 | **웹 서버** | Nginx | SSL 인증 및 Reverse Proxy 설정 |
 | **정적 리소스** | AWS S3 + CloudFront | 프론트엔드 배포 및 CDN 캐싱 |
 | **데이터베이스** | AWS RDS (MySQL 8.0) | 영화, 회원, 예약, 리뷰 등 데이터 저장 |
-| **CI/CD** | GitHub Actions | main 브랜치 푸시 시 자동 빌드 및 배포 |
+| **CI/CD** | GitHub Actions | dev 브랜치 푸시 시 자동 빌드 및 배포 |
 | **도메인/보안** | Route53 + SSL 인증서 | HTTPS 통신 보안 |
 
 ## ⚙️ 트러블슈팅
